@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wallpaper xmlns:android="http://schemas.android.com/apk/res/android"
-    android:thumbnail="@mipmap/gallery_preview"
+    android:thumbnail="@drawable/gallery_preview"
     android:settingsActivity="com.lucasasselli.zero.SettingsActivity"
     android:description="@string/app_name" />

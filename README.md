@@ -1,6 +1,6 @@
 # Zero [![Build Status](https://travis-ci.org/lucasax/Zero.svg?branch=master)](https://travis-ci.org/lucasax/Zero)
 
-<img src="app/src/main/res/drawable/ic_launcher.png" align="left"
+<img src="zero/src/main/res/drawable-nodpi/ic_launcher.png" align="left"
 width="200"
     hspace="10" vspace="10">
 

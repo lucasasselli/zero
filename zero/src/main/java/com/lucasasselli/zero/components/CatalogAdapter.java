@@ -102,7 +102,7 @@ public class CatalogAdapter extends BaseAdapter {
                 .load(thumbnailUrl)
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .centerCrop()
-                .placeholder(R.mipmap.empty)
+                .placeholder(R.drawable.empty)
                 .crossFade()
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
