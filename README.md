@@ -13,6 +13,7 @@ Zero is available on the Google Play.
         src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
 </a>
 
+
 ## Licensing
 
 Zero is licensed under the [GNU v3 Public License.](license.txt)
