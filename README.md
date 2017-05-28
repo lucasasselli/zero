@@ -13,7 +13,7 @@ Zero is available on the Google Play.
         src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
 </a>
 
-
+The project is very young and most likely very buggy; right now the application is still in alpha test. If you are a developer and wish to contribute to the app please fork the project and submit a pull request.
 
 ## Licensing
 
