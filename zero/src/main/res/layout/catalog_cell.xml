@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/catalog_root"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/catalog_preview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:cropToPadding="false"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/empty" />
+
+    <RelativeLayout
+        android:id="@+id/catalog_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/catalog_preview"
+        android:background="@color/opaque_light"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/catalog_text_pro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/text_box"
+            android:text="@string/common_pro"
+            android:textAllCaps="true"
+            android:textColor="@android:color/holo_orange_light"
+            android:textSize="@dimen/pro_text"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/catalog_img_offline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/text_box"
+            android:layout_alignEnd="@+id/catalog_text_pro"
+            android:layout_alignLeft="@+id/catalog_text_pro"
+            android:layout_alignParentBottom="false"
+            android:layout_alignRight="@+id/catalog_text_pro"
+            android:layout_alignStart="@+id/catalog_text_pro"
+            android:layout_gravity="bottom"
+            app:srcCompat="@drawable/ic_offline" />
+
+        <LinearLayout
+            android:id="@+id/text_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@+id/catalog_text_pro"
+            android:layout_toStartOf="@+id/catalog_text_pro"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/catalog_text_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColor="#ffffffff"
+                android:textSize="@dimen/list_text_main"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/catalog_text_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textColor="#ffffffff"
+                android:textSize="@dimen/list_text_secondary"
+                android:textStyle="italic" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/catalog_progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lucasasselli.zero.components.MySwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.lucasasselli.zero.components.InfoView
+        android:id="@+id/info_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <GridView
+            android:id="@+id/catalog_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="@integer/catalog_grid_columns" />
+    </com.lucasasselli.zero.components.InfoView>
+</com.lucasasselli.zero.components.MySwipeRefreshLayout>

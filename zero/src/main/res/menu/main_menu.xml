@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/main_menu_sort"
+        android:title="@string/menu_sort"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_sort_white_24dp">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/main_menu_sort_popularity"
+                    android:title="@string/main_menu_sort_popularity" />
+                <item
+                    android:id="@+id/main_menu_sort_new"
+                    android:title="@string/main_menu_sort_new" />
+                <item
+                    android:id="@+id/main_menu_sort_title"
+                    android:title="@string/main_menu_sort_title" />
+                <item
+                    android:id="@+id/main_menu_sort_author"
+                    android:title="@string/main_menu_sort_author" />
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/main_menu_custom"
+        android:title="@string/menu_custom"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_custom" />
+    <item
+        android:id="@+id/main_menu_refresh"
+        android:title="@string/menu_refresh" />
+    <item
+        android:id="@+id/main_menu_set"
+        android:title="@string/menu_wpsetter" />
+    <item
+        android:id="@+id/main_menu_settings"
+        android:title="@string/menu_settings" />
+</menu>

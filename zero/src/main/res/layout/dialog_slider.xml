@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dialog_vertical_margin"
+    android:layout_marginLeft="@dimen/dialog_horizontal_margin"
+    android:layout_marginRight="@dimen/dialog_horizontal_margin"
+    android:layout_marginTop="@dimen/dialog_vertical_margin"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog_slider_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAlignment="center" />
+
+    <SeekBar
+        android:id="@+id/dialog_slider_seek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+</LinearLayout>

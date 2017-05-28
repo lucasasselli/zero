@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_cat_general">
+        <Preference
+            android:title="@string/pref_zoom_title"
+            android:summary="@string/pref_zoom_summary"
+            android:key="@string/pref_zoom_key"
+            android:defaultValue="@string/pref_zoom_default" />
+        <SwitchPreference
+            android:title="@string/pref_limit_title"
+            android:summary="@string/pref_limit_summary"
+            android:key="@string/pref_limit_key"
+            android:defaultValue="@bool/pref_limit_default" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_sensor">
+        <SwitchPreference
+            android:title="@string/pref_sensor_title"
+            android:summary="@string/pref_sensor_summary"
+            android:key="@string/pref_sensor_key"
+            android:defaultValue="@bool/pref_sensor_default" />
+        <Preference
+            android:dependency="@string/pref_sensor_key"
+            android:title="@string/pref_depth_title"
+            android:summary="@string/pref_depth_summary"
+            android:key="@string/pref_depth_key"
+            android:defaultValue="@string/pref_depth_default" />
+        <Preference
+            android:dependency="@string/pref_sensor_key"
+            android:title="@string/pref_sensitivity_title"
+            android:summary="@string/pref_sensitivity_summary"
+            android:key="@string/pref_sensitivity_key"
+            android:defaultValue="@string/pref_sensitivity_default" />
+        <Preference
+            android:dependency="@string/pref_sensor_key"
+            android:title="@string/pref_fallback_title"
+            android:summary="@string/pref_fallback_summary"
+            android:key="@string/pref_fallback_key"
+            android:defaultValue="@string/pref_fallback_default" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_scrolling">
+        <SwitchPreference
+            android:title="@string/pref_scroll_title"
+            android:summary="@string/pref_scroll_summary"
+            android:key="@string/pref_scroll_key"
+            android:defaultValue="@bool/pref_scroll_default" />
+        <Preference
+            android:dependency="@string/pref_scroll_key"
+            android:title="@string/pref_scroll_amount_title"
+            android:summary="@string/pref_scroll_amount_summary"
+            android:key="@string/pref_scroll_amount_key"
+            android:defaultValue="@string/pref_scroll_amount_default" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_notification">
+        <SwitchPreference
+            android:title="@string/pref_notification_title"
+            android:summary="@string/pref_notification_summary"
+            android:key="@string/pref_notification_key"
+            android:defaultValue="@bool/pref_notification_default" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_data">
+        <Preference
+            android:title="@string/pref_delete_title"
+            android:summary="@string/pref_delete_summary"
+            android:key="@string/pref_delete_key" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_info">
+        <Preference
+            android:title="Version"
+            android:summary="@string/app_version" />
+        <Preference
+            android:title="Created with love by"
+            android:summary="@string/my_name" />
+    </PreferenceCategory>
+</PreferenceScreen>

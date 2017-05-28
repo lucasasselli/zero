@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/set_menu_set"
+        app:showAsAction="always"
+        android:title="@string/menu_wpsetter"
+        android:icon="@drawable/ic_check_white_24dp" />
+    <item
+        android:id="@+id/set_menu_link"
+        app:showAsAction="always"
+        android:title="@string/menu_link"
+        android:icon="@drawable/ic_link_white_24dp" />
+    <item
+        android:id="@+id/set_menu_delete"
+        app:showAsAction="ifRoom"
+        android:title="@string/menu_delete"
+        android:icon="@drawable/ic_delete_white_24dp" />
+    <item
+        android:id="@+id/set_menu_settings"
+        app:showAsAction="ifRoom"
+        android:title="@string/menu_settings"
+        android:icon="@drawable/ic_settings_white_24dp" />
+</menu>

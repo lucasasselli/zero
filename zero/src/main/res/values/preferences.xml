@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Preference Categories-->
+    <string name="pref_cat_general">Zoom</string>
+    <string name="pref_cat_sensor">Sensor</string>
+    <string name="pref_cat_scrolling">Scrolling</string>
+    <string name="pref_cat_notification">Notifications</string>
+    <string name="pref_cat_data">Data</string>
+    <string name="pref_cat_info">Info</string>
+
+    <!-- Preference Titles-->
+    <string name="pref_sensor_title">Sensor</string>
+    <string name="pref_limit_title">Limit offset</string>
+    <string name="pref_depth_title">Depth</string>
+    <string name="pref_sensitivity_title">Sensitivity</string>
+    <string name="pref_fallback_title">Fallback</string>
+    <string name="pref_zoom_title">Zoom</string>
+    <string name="pref_scroll_title">Scroll</string>
+    <string name="pref_scroll_amount_title">Scroll amount</string>
+    <string name="pref_delete_title">Delete local content</string>
+    <string name="pref_notification_title">Enable notification</string>
+
+    <!-- Preference summaries-->
+    <string name="pref_sensor_summary">Enable orientation sensor</string>
+    <string name="pref_limit_summary">Prevent layers edges from being shown</string>
+    <string name="pref_depth_summary">Perceived depth of the animation</string>
+    <string name="pref_sensitivity_summary">Responsiveness of the animation</string>
+    <string name="pref_fallback_summary">Animation reset speed</string>
+    <string name="pref_zoom_summary">Perceived distance of the wallpaper</string>
+    <string name="pref_scroll_summary">Enable wallpaper scrolling when changing page</string>
+    <string name="pref_scroll_amount_summary">How much the wallpaper scrolls</string>
+    <string name="pref_delete_summary">Free memory by removing the downloaded backgrounds</string>
+    <string name="pref_notification_summary">Send a notification when new wallpapers are available</string>
+
+    <!-- Preference Keys-->
+    <string name="pref_sensor_key">sensor</string>
+    <string name="pref_limit_key">limit</string>
+    <string name="pref_depth_key">depth</string>
+    <string name="pref_sensitivity_key">sensitivity</string>
+    <string name="pref_fallback_key">fallback</string>
+    <string name="pref_zoom_key">zoom</string>
+    <string name="pref_scroll_key">scroll</string>
+    <string name="pref_scroll_amount_key">scroll_amount</string>
+    <string name="pref_delete_key">delete</string>
+    <string name="pref_notification_key">notification</string>
+
+    <!-- Preference Default -->
+    <bool name="pref_sensor_default">true</bool>
+    <bool name="pref_limit_default">true</bool>
+    <string name="pref_depth_default">50</string>
+    <string name="pref_sensitivity_default">50</string>
+    <string name="pref_fallback_default">50</string>
+    <string name="pref_zoom_default">50</string>
+    <bool name="pref_scroll_default">true</bool>
+    <string name="pref_scroll_amount_default">50</string>
+    <bool name="pref_notification_default">true</bool>
+
+</resources>

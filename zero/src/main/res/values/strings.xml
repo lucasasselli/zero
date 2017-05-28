@@ -1,0 +1,80 @@
+<resources>
+    <!-- Base -->
+    <string name="app_name">Zero</string>
+    <string name="app_version">1.6.4</string>
+    <string name="my_name">Luca Sasselli</string>
+    <string name="my_email">lucasasselli93@gmail.com</string>
+
+    <!-- Common -->
+    <string name="common_ok">OK</string>
+    <string name="common_set">Set</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_retry">Retry</string>
+    <string name="common_pro">Pro</string>
+    <string name="common_send">Send</string>
+    <string name="common_later">Later</string>
+    <string name="common_never">Don\'t bother me again!</string>
+
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_sort">Sort by</string>
+    <string name="menu_wpsetter">Set wallpaper</string>
+    <string name="menu_custom">Use custom image</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_link">Author\'s site</string>
+
+    <string name="error_download">Download failed!</string>
+    <string name="error_connection">You\'re not connected to the internet!</string>
+    <string name="error_preview_unknown">Unable to display preview!</string>
+    <string name="error_preview_notfound">Preview unavailable</string>
+    <string name="error_wpsetter">Live wallpaper setter not found!</string>
+    <string name="error_customwp">Unable to create custom wallpaper!</string>
+    <string name="error_catalog">Unable retrieve catalog!</string>
+    <string name="error_browser">Unable open browser!</string>
+
+    <string name="notif_new_title_one">New Wallpaper! Check it out!</string>
+    <string name="notif_new_title_multi">New Wallpapers! Check them out!</string>
+    <string name="notif_new_message_one">A new wallpaper has been added to the catalog.</string>
+    <string name="notif_new_message_multi">new wallpapers have been added to the catalog.</string>
+
+    <!-- Main activity -->
+    <string name="main_info_empty_title">Nothing to show!</string>
+    <string name="main_info_empty_message">Content will be downloaded as soon as possible…</string>
+
+    <string name="main_dialog_nosensor_title">Sensor error</string>
+    <string name="main_dialog_nosensor_message">Your device doesn\'t have the required sensors to display motion parallax effect.\n\nThe effect will only be visible while scrolling launcher pages.</string>
+
+    <string name="main_ongoing_download">Downloading…</string>
+    <string name="main_ongoing_customwp">Creating wallpaper…</string>
+
+    <string name="main_dialog_prowp_title">Pro wallpaper</string>
+    <string name="main_dialog_prowp_message">To download this wallpaper you must buy the PRO version. Do you want to download it now?</string>
+
+    <string name="pro_custom_dialog_title">Custom wallpaper</string>
+    <string name="pro_custom_dialog_content">To create a custom wallpaper you must install the PRO version. Do you want to download it now?</string>
+
+    <string name="main_alert_deleted">Local copy deleted!</string>
+
+    <string name="main_menu_sort_popularity">Popularity</string>
+    <string name="main_menu_sort_new">New</string>
+    <string name="main_menu_sort_title">Title</string>
+    <string name="main_menu_sort_author">Author</string>
+
+    <!-- Set Activity -->
+    <string name="set_title">Preview</string>
+
+    <string name="set_dialog_delete_title">Delete wallpaper</string>
+    <string name="set_dialog_delete_message">Do you really want to delete this wallpaper? You can always download it later.</string>
+
+    <string name="set_dialog_notzero_title">Select Zero</string>
+    <string name="set_dialog_notzero_message">In order to work, Zero must be set as your live wallpaper. Do you want to set it now?</string>
+
+    <string name="set_alert_changed">Wallpaper changed!</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_dialog_delete_title">Delete local content</string>
+    <string name="settings_dialog_delete_message">Do you really want to download the local content?</string>
+
+</resources>

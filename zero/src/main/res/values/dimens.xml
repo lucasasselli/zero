@@ -1,0 +1,18 @@
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="dialog_horizontal_margin">16dp</dimen>
+    <dimen name="dialog_vertical_margin">16dp</dimen>
+
+    <dimen name="list_text_main">18sp</dimen>
+    <dimen name="list_text_secondary">13sp</dimen>
+
+    <dimen name="pro_text">10sp</dimen>
+
+    <dimen name="info_text_main">25sp</dimen>
+    <dimen name="info_text_secondary">20sp</dimen>
+
+    <integer name="catalog_grid_columns">2</integer>
+</resources>
+
