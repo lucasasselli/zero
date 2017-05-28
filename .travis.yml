@@ -1,0 +1,19 @@
+language: android
+
+sudo: true
+
+env:
+  global:
+  - MALLOC_ARENA_MAX=2
+
+android:
+  components:
+  - tools
+  - platform-tools
+  - build-tools-25.0.2
+  - android-25
+  - extra-android-m2repository
+  - extra-google-m2repository
+
+notifications:
+  email: false
