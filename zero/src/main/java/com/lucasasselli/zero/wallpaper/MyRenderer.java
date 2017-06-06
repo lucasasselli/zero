@@ -69,6 +69,8 @@ class MyRenderer implements GLSurfaceView.Renderer {
     // Preview
     private boolean isPreview = false;
 
+    boolean fallback;
+
     private List<BackgroundHelper.Layer> layerList;
     
     // Opengl stuff
@@ -148,7 +150,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
         for (int i = 0; i < textures.length; i++) {
             // Get layer z
             double z;
-            if (!loadedWallpaperId.equals(PREF_BACKGROUND_DEFAULT)) {
+            if (!fallback) {
                 z = layerList.get(i).getZ();
             } else {
                 z = 0;
@@ -241,15 +243,16 @@ class MyRenderer implements GLSurfaceView.Renderer {
         }
 
         // Generate the new textures
+        int layerCount = 1;
+        fallback = true;
         if (!prefWallpaperId.equals(PREF_BACKGROUND_DEFAULT)) {
             layerList = BackgroundHelper.loadFromFile(prefWallpaperId, context);
+            if (layerList != null) {
+                prefWallpaperId = PREF_BACKGROUND_DEFAULT;
+                fallback = false;
+                layerCount = layerList.size();
+            }
         }
-
-        boolean fallback;
-        fallback = !(layerList != null && !prefWallpaperId.equals(PREF_BACKGROUND_DEFAULT));
-
-        int layerCount = fallback ? 1 : layerList.size();
-
         // Create glTexture array
         textures = new int[layerCount];
         GLES20.glGenTextures(layerCount, textures, 0);

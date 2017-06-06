@@ -47,6 +47,8 @@ import java.util.List;
 import static com.lucasasselli.zero.Constants.LD_TIMESTAMP;
 import static com.lucasasselli.zero.Constants.PREF_CHECKSENS;
 import static com.lucasasselli.zero.Constants.PREF_CHECKSENS_DEFAULT;
+import static com.lucasasselli.zero.Constants.PREF_NEWWEEK;
+import static com.lucasasselli.zero.Constants.PREF_NEWWEEK_DEFAULT;
 import static com.lucasasselli.zero.Constants.PRO_NAME;
 import static com.lucasasselli.zero.Constants.T_CATALOG_EXPIRATION;
 import static com.lucasasselli.zero.Utils.checkProVersion;
@@ -112,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
 
         context = this;
 
+        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         // Layout
         rootView = findViewById(R.id.main_container);
         GridView catalogList = (GridView) findViewById(R.id.catalog_grid);
@@ -127,14 +131,16 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         catalog = new Catalog();
         catalogList.setAdapter(catalogAdapter);
         catalogList.setOnItemClickListener(catalogItemClickListener);
+
+        final boolean newWeek = sharedPreferences.getBoolean(PREF_NEWWEEK, PREF_NEWWEEK_DEFAULT);
         catalogList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (totalItemCount > 0 && totalItemCount >= visibleItemCount && (firstVisibleItem + visibleItemCount >= totalItemCount)) {
                     // End has been reached, show toast
-                    if (!nextWeekToastShown) {
+                    if (!newWeek) {
                         Toast.makeText(context, R.string.main_alert_nextweek, Toast.LENGTH_SHORT).show();
-                        nextWeekToastShown = true;
+                        sharedPreferences.edit().putBoolean(PREF_NEWWEEK, true).apply();
                     }
                 }
             }
@@ -146,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         });
 
         // Before anything check if the sensors are available
-        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean checkSensors = sharedPreferences.getBoolean(PREF_CHECKSENS, PREF_CHECKSENS_DEFAULT);
         if (!Utils.sensorsAvailable(this) && checkSensors) {
             new AlertDialog.Builder(context)

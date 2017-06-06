@@ -55,4 +55,6 @@ public class Constants {
     public final static String PREF_BACKGROUND_DEFAULT = "fallback";
     public final static String PREF_CHECKSENS = "checksens";
     public final static boolean PREF_CHECKSENS_DEFAULT = true;
+    public final static String PREF_NEWWEEK = "newweek";
+    public final static boolean PREF_NEWWEEK_DEFAULT = false;
 }
