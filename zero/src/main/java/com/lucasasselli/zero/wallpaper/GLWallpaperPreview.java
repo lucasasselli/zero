@@ -22,9 +22,12 @@ public class GLWallpaperPreview extends GLSurfaceView {
     }
 
     public void init(String id) {
+        // Set version
         setEGLContextClientVersion(2);
+        // Set renderer
         renderer = new MyRenderer(context, id);
         setRenderer(renderer);
+
     }
 
     public void start() {

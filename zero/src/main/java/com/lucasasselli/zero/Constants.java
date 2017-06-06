@@ -24,9 +24,9 @@ public class Constants {
     public final static double VERTICAL_FIX = 0.01;
 
     // Time
-    public final static long T_CATALOG_EXPIRATION = 100;
+    public final static long T_CATALOG_EXPIRATION = 24 * 3600;
     public final static long T_SYNC_PERIOD = 24 * 3600;
-    public final static int T_SERVER_TIMEOUT = 30000;
+    public final static int T_SERVER_TIMEOUT = 15000;
     // File system
     public final static String FS_DIR_ZERO = "Zero";
     public final static String FS_DIR_CACHE = "cache";

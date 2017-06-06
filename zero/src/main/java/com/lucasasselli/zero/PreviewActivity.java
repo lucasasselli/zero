@@ -24,9 +24,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 
 import static android.view.View.GONE;
+import static com.lucasasselli.zero.Constants.T_SERVER_TIMEOUT;
 
 public class PreviewActivity extends AppCompatActivity {
 
@@ -156,6 +158,7 @@ public class PreviewActivity extends AppCompatActivity {
 
         // Constants
         public static final int RESULT_NOTFOUND = 2;
+        public static final int RESULT_TIMEOUT = 3;
 
         private final CatalogItem catalogItem;
         private final Context context;
@@ -187,11 +190,13 @@ public class PreviewActivity extends AppCompatActivity {
                 String urlString = UrlFactory.getPreviewUrl(catalogItem);
                 URL url = new URL(urlString);
                 urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setConnectTimeout(T_SERVER_TIMEOUT);
+                urlConnection.setReadTimeout(T_SERVER_TIMEOUT);
                 urlConnection.connect();
 
                 if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_NOT_FOUND) {
                     return RESULT_NOTFOUND;
-                }else if(urlConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                } else if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                     return RESULT_FAIL;
                 }
 
@@ -217,6 +222,9 @@ public class PreviewActivity extends AppCompatActivity {
                         publishProgress(total * 100 / fileLength, total, fileLength);
                     output.write(data, 0, count);
                 }
+            } catch (SocketTimeoutException ignored) {
+                Log.e(TAG, "Connection timeout!");
+                return RESULT_TIMEOUT;
             } catch (Exception e) {
                 Log.e(TAG, "IO Exception");
                 e.printStackTrace();
@@ -251,6 +259,8 @@ public class PreviewActivity extends AppCompatActivity {
                 setVideo(Uri.fromFile(downloadFile));
             }else if (result == RESULT_NOTFOUND) {
                 showError(R.string.error_preview_notfound);
+            } else if (result == RESULT_TIMEOUT) {
+                showError(R.string.error_timeout);
             } else {
                 showError(R.string.error_preview_unknown);
             }

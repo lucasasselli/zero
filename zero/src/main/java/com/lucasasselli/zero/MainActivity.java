@@ -82,11 +82,9 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent != null) {
-                boolean result = intent.getBooleanExtra(SyncManager.EXTRA_RESULT, false);
-                if (result) {
-                    // Catalog sync successful
-                    swipeRefreshLayout.setRefreshing(false); // Stop refresh layout
-
+                int result = intent.getIntExtra(SyncManager.EXTRA_RESULT, SyncManager.RESULT_FAIL);
+                swipeRefreshLayout.setRefreshing(false); // Stop refresh layout
+                if (result == SyncManager.RESULT_SUCCESS) {
                     // Reload local content
                     if (loadLocalContent()) {
                         refreshList();
@@ -94,9 +92,11 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
                         // This error is very unlikely to happen
                         showCatalogDownloadError();
                     }
+                } else if (result == SyncManager.RESULT_TIMEOUT) {
+                    // Connection timeout
+                    showTimeoutError();
                 } else {
                     // Catalog sync failed
-                    swipeRefreshLayout.setRefreshing(false); // Stop refresh layout
                     showCatalogDownloadError(); // Show catalog download error
                 }
             }

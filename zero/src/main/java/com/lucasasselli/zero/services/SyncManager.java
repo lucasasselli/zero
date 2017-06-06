@@ -32,10 +32,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 
 import static com.lucasasselli.zero.Constants.LD_CATALOG;
 import static com.lucasasselli.zero.Constants.LD_TIMESTAMP;
+import static com.lucasasselli.zero.Constants.T_SERVER_TIMEOUT;
 import static com.lucasasselli.zero.Constants.T_SYNC_PERIOD;
 import static com.lucasasselli.zero.Utils.getTimestamp;
 
@@ -46,8 +48,11 @@ public class SyncManager extends IntentService {
     // Constants
     private final static int NOTIFICATION_ID = 1;
     private final static String EXTRA_SILENT = "silent";
-    public final static String ACTION_SYNC = "com.lucasasselli.zero.services.SyncManager.ACTION_SYNC";
     public final static String EXTRA_RESULT = "result";
+    public final static String ACTION_SYNC = "com.lucasasselli.zero.services.SyncManager.ACTION_SYNC";
+    public final static int RESULT_SUCCESS = 0;
+    public final static int RESULT_FAIL = 1;
+    public final static int RESULT_TIMEOUT = 2;
 
     private NotificationManager notificationManager;
     private InternalData internalData;
@@ -82,13 +87,13 @@ public class SyncManager extends IntentService {
         Catalog oldCatalog = new Catalog();
         Catalog newCatalog = new Catalog();
 
-        boolean success = true;
+        int serviceResult = RESULT_SUCCESS;
 
         boolean isSilent;
         if (intent != null) {
             isSilent = intent.getBooleanExtra(EXTRA_SILENT, true);
         } else {
-            success = false;
+            serviceResult = RESULT_FAIL;
             isSilent = true;
 
             Log.e(TAG, "Null intent!");
@@ -103,8 +108,9 @@ public class SyncManager extends IntentService {
         // Retrieve current catalog
         oldCatalog.loadFromCache(this);
 
-        if (Utils.checkConnection(this) && success) {
-            if (downloadCatalog()) {
+        if (Utils.checkConnection(this) && serviceResult == RESULT_SUCCESS) {
+            serviceResult = downloadCatalog();
+            if (serviceResult == RESULT_SUCCESS) {
                 // Download okay!
                 newCatalog.loadFromCache(this);
 
@@ -120,13 +126,10 @@ public class SyncManager extends IntentService {
                         Log.d(TAG, "Catalog download completed: no new wallpaper.");
                     }
                 }
-            } else {
-                // Download failed
-                success = false;
             }
         } else {
             // End service
-            success = false;
+            serviceResult = RESULT_FAIL;
 
             Log.e(TAG, "ERROR: No internet connection!");
         }
@@ -148,7 +151,7 @@ public class SyncManager extends IntentService {
             // Broadcast
             Intent broadcastIntent = new Intent();
             broadcastIntent.setAction(ACTION_SYNC);
-            broadcastIntent.putExtra(EXTRA_RESULT, success);
+            broadcastIntent.putExtra(EXTRA_RESULT, serviceResult);
             sendBroadcast(broadcastIntent);
         }
     }
@@ -161,7 +164,7 @@ public class SyncManager extends IntentService {
         isRunning = false;
     }
 
-    private boolean downloadCatalog() {
+    private int downloadCatalog() {
         HttpURLConnection urlConnection = null;
         String response = "";
 
@@ -169,6 +172,9 @@ public class SyncManager extends IntentService {
             String urlString = UrlFactory.getCatalogUrl();
             URL url = new URL(urlString);
             urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setConnectTimeout(T_SERVER_TIMEOUT);
+            urlConnection.setReadTimeout(T_SERVER_TIMEOUT);
+            urlConnection.connect();
 
             int code = urlConnection.getResponseCode();
 
@@ -184,15 +190,18 @@ public class SyncManager extends IntentService {
 
                 in.close();
             }
-
+        } catch (SocketTimeoutException ignored) {
+            // Connection timeout
+            Log.e(TAG, "Connection timeout");
+            return RESULT_TIMEOUT;
         } catch (MalformedURLException e) {
             Log.e(TAG, "Malformed URL exception");
             e.printStackTrace();
-            return false;
+            return RESULT_FAIL;
         } catch (IOException e) {
             Log.e(TAG, "IO exception");
             e.printStackTrace();
-            return false;
+            return RESULT_FAIL;
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -210,7 +219,7 @@ public class SyncManager extends IntentService {
             } catch (JsonSyntaxException ex) {
 
                 Log.e(TAG, "Json syntax error");
-                return false;
+                return RESULT_FAIL;
             }
 
             // Store internally
@@ -218,20 +227,20 @@ public class SyncManager extends IntentService {
 
             result = internalData.saveString(response, LD_CATALOG);
             if (result == InternalData.ERROR) {
-                return false;
+                return RESULT_FAIL;
             }
 
             result = internalData.saveLong(getTimestamp(), LD_TIMESTAMP);
             if (result == InternalData.ERROR) {
-                return false;
+                return RESULT_FAIL;
             }
 
             Log.d(TAG, items.length + " catalog items loaded!");
 
-            return true;
+            return RESULT_SUCCESS;
 
         } else {
-            return false;
+            return RESULT_FAIL;
         }
 
     }

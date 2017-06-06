@@ -3,7 +3,6 @@ package com.lucasasselli.zero.wallpaper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
@@ -11,7 +10,6 @@ import android.opengl.Matrix;
 import android.preference.PreferenceManager;
 
 import com.lucasasselli.zero.R;
-import com.lucasasselli.zero.Utils;
 
 import java.io.File;
 import java.util.List;
@@ -68,8 +66,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
 
     // Preview
     private boolean isPreview = false;
-
-    boolean fallback;
+    private boolean isFallback;
 
     private List<BackgroundHelper.Layer> layerList;
     
@@ -124,7 +121,6 @@ class MyRenderer implements GLSurfaceView.Renderer {
 
         // Create layers
         if (!prefWallpaperId.equals(loadedWallpaperId)) {
-            loadedWallpaperId = prefWallpaperId;
             generateLayers();
         }
     }
@@ -150,7 +146,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
         for (int i = 0; i < textures.length; i++) {
             // Get layer z
             double z;
-            if (!fallback) {
+            if (!isFallback) {
                 z = layerList.get(i).getZ();
             } else {
                 z = 0;
@@ -190,6 +186,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
 
     // This method must be called every time the renderer is started or to reload the settings
     public void start() {
+
         reloadSettings();
 
         deltaInit = false;
@@ -244,12 +241,12 @@ class MyRenderer implements GLSurfaceView.Renderer {
 
         // Generate the new textures
         int layerCount = 1;
-        fallback = true;
+        isFallback = true;
         if (!prefWallpaperId.equals(PREF_BACKGROUND_DEFAULT)) {
             layerList = BackgroundHelper.loadFromFile(prefWallpaperId, context);
             if (layerList != null) {
                 prefWallpaperId = PREF_BACKGROUND_DEFAULT;
-                fallback = false;
+                isFallback = false;
                 layerCount = layerList.size();
             }
         }
@@ -261,7 +258,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
 
         for (int i = 0; i < textures.length; i++) {
             // Load bitmap
-            if (!fallback) {
+            if (!isFallback) {
                 File bitmapFile = layerList.get(i).getFile();
                 tempBitmap = BackgroundHelper.decodeScaledFromFile(bitmapFile);
             } else {
@@ -269,12 +266,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
             }
 
             if (i == 0) {
-                int backgroundColor = Utils.calculateAverageColor(tempBitmap, 5);
-                // Set the background frame color
-                float r = (float) Color.red(backgroundColor) / 255.0f;
-                float g = (float) Color.green(backgroundColor) / 255.0f;
-                float b = (float) Color.blue(backgroundColor) / 255.0f;
-                GLES20.glClearColor(r, g, b, 1.0f);
+                GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             }
 
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[i]);
@@ -290,6 +282,9 @@ class MyRenderer implements GLSurfaceView.Renderer {
         }
 
         glLayer = new GLLayer();
+
+        // Set the loaded wallpaper id
+        loadedWallpaperId = prefWallpaperId;
     }
 
     void setOffset(float offset) {
