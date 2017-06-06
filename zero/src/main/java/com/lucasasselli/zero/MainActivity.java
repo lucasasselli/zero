@@ -47,8 +47,8 @@ import java.util.List;
 import static com.lucasasselli.zero.Constants.LD_TIMESTAMP;
 import static com.lucasasselli.zero.Constants.PREF_CHECKSENS;
 import static com.lucasasselli.zero.Constants.PREF_CHECKSENS_DEFAULT;
-import static com.lucasasselli.zero.Constants.PREF_NEWWEEK;
-import static com.lucasasselli.zero.Constants.PREF_NEWWEEK_DEFAULT;
+import static com.lucasasselli.zero.Constants.PREF_NEXTWEEK;
+import static com.lucasasselli.zero.Constants.PREF_NEXTWEEK_DEFAULT;
 import static com.lucasasselli.zero.Constants.PRO_NAME;
 import static com.lucasasselli.zero.Constants.T_CATALOG_EXPIRATION;
 import static com.lucasasselli.zero.Utils.checkProVersion;
@@ -132,15 +132,18 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         catalogList.setAdapter(catalogAdapter);
         catalogList.setOnItemClickListener(catalogItemClickListener);
 
-        final boolean newWeek = sharedPreferences.getBoolean(PREF_NEWWEEK, PREF_NEWWEEK_DEFAULT);
+        // If user reaches bottom, show next week toast
+        final boolean newWeek = sharedPreferences.getBoolean(PREF_NEXTWEEK, PREF_NEXTWEEK_DEFAULT);
         catalogList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (totalItemCount > 0 && totalItemCount >= visibleItemCount && (firstVisibleItem + visibleItemCount >= totalItemCount)) {
                     // End has been reached, show toast
-                    if (!newWeek) {
+                    if (!newWeek && !nextWeekToastShown) {
                         Toast.makeText(context, R.string.main_alert_nextweek, Toast.LENGTH_SHORT).show();
-                        sharedPreferences.edit().putBoolean(PREF_NEWWEEK, true).apply();
+                        sharedPreferences.edit().putBoolean(PREF_NEXTWEEK, true).apply();
+                        // Prevents spamming
+                        nextWeekToastShown = true;
                     }
                 }
             }
