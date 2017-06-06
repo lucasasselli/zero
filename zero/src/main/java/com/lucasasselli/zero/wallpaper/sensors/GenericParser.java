@@ -55,7 +55,7 @@ public abstract class GenericParser {
         }
     }
 
-    protected SensorManager getSensorManager() {
+    SensorManager getSensorManager() {
         return sensorManager;
     }
 }

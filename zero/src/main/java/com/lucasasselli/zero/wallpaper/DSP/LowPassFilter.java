@@ -3,7 +3,7 @@ package com.lucasasselli.zero.wallpaper.DSP;
 public class LowPassFilter {
 
     private double factor;
-    private int width;
+    private final int width;
     private double[] last;
 
     public LowPassFilter(int width) {

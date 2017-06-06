@@ -385,12 +385,12 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
     }
 
     // Refresh list and display errors
-    private boolean refreshList() {
+    private void refreshList() {
         // Check if there's content
         if (catalog != null && catalog.size() == 0) {
             // Display error message
             Log.d(TAG, "Refresh called but catalog is empty!");
-            return false;
+            return;
         }
 
         // Infoview is no longer needed
@@ -399,7 +399,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         // Set list content to list
         catalogAdapter.setContent(catalog);
 
-        return true;
     }
 
     private boolean loadLocalContent() {
@@ -413,7 +412,7 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
     }
 
     // Load catalog remotely
-    private boolean loadRemoteContent() {
+    private void loadRemoteContent() {
 
         // Clear cache
         StorageHelper.deleteFolder(getCacheFolder(this));
@@ -425,7 +424,7 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
             // Start the download
             SyncManager.start(context, false);
 
-            return true;
+            return;
         } else {
             // Stop refresh layout
             swipeRefreshLayout.setRefreshing(false);
@@ -433,7 +432,7 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
             // Show connection error
             Snackbar.make(rootView, R.string.error_connection, Snackbar.LENGTH_LONG).show();
 
-            return false;
+            return;
         }
     }
 

@@ -2,11 +2,11 @@ package com.lucasasselli.zero.wallpaper.DSP;
 
 public class RollingAverageFilter {
 
-    private int size;
-    private int width;
-    private float[] total;
+    private final int size;
+    private final int width;
+    private final float[] total;
     private int index = 0;
-    private float samples[][];
+    private final float[][] samples;
 
     public RollingAverageFilter(int width, int size) {
         this.size = size;

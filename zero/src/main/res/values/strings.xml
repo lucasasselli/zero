@@ -1,9 +1,8 @@
 <resources>
     <!-- Base -->
     <string name="app_name">Zero</string>
-    <string name="app_version">1.6.4</string>
+    <string name="app_version">1.6.5</string>
     <string name="my_name">Luca Sasselli</string>
-    <string name="my_email">lucasasselli93@gmail.com</string>
 
     <!-- Common -->
     <string name="common_ok">OK</string>
@@ -12,9 +11,6 @@
     <string name="common_delete">Delete</string>
     <string name="common_retry">Retry</string>
     <string name="common_pro">Pro</string>
-    <string name="common_send">Send</string>
-    <string name="common_later">Later</string>
-    <string name="common_never">Don\'t bother me again!</string>
 
     <string name="menu_refresh">Refresh</string>
     <string name="menu_sort">Sort by</string>
@@ -51,9 +47,6 @@
 
     <string name="main_dialog_prowp_title">Pro wallpaper</string>
     <string name="main_dialog_prowp_message">To download this wallpaper you must buy the PRO version. Do you want to download it now?</string>
-
-    <string name="pro_custom_dialog_title">Custom wallpaper</string>
-    <string name="pro_custom_dialog_content">To create a custom wallpaper you must install the PRO version. Do you want to download it now?</string>
 
     <string name="main_alert_deleted">Local copy deleted!</string>
     <string name="main_alert_nextweek">New wallpapers coming every week!</string>

@@ -18,8 +18,8 @@ class Parallax implements SensorEventListener {
     private final String TAG = getClass().getSimpleName();
 
     // Filters
-    private LowPassFilter sensitivityFilter = new LowPassFilter(2);
-    private LowPassFilter fallbackFilter = new LowPassFilter(2);
+    private final LowPassFilter sensitivityFilter = new LowPassFilter(2);
+    private final LowPassFilter fallbackFilter = new LowPassFilter(2);
     private double[] resetDeg = new double[2];
     private boolean filtersInit;
 
@@ -28,8 +28,8 @@ class Parallax implements SensorEventListener {
     private double degY;
 
     private final SensorManager sensorManager;
-    private GenericParser parser;
-    private Context context;
+    private final GenericParser parser;
+    private final Context context;
 
     Parallax(Context context) {
 

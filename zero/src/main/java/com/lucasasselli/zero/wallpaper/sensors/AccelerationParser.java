@@ -12,8 +12,8 @@ public class AccelerationParser extends RotationParser {
     private float[] accValues;
     private float[] magValues;
     private double[] degHolder = {0.0, 0.0};
-    private RollingAverageFilter accFilt = new RollingAverageFilter(3, 5);
-    private RollingAverageFilter magFilt = new RollingAverageFilter(3, 5);
+    private final RollingAverageFilter accFilt = new RollingAverageFilter(3, 5);
+    private final RollingAverageFilter magFilt = new RollingAverageFilter(3, 5);
 
     public AccelerationParser(Context context) {
         super(context);

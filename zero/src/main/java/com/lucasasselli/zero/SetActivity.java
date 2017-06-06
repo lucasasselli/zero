@@ -59,18 +59,14 @@ public class SetActivity extends AppCompatActivity {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        if (savedInstanceState == null) {
-            // First execution, grab intent extra
-            Intent intent = getIntent();
-            if (intent != null) {
-                isCustom = intent.getBooleanExtra(EXTRA_IS_CUSTOM, false);
-                catalogItem = intent.getParcelableExtra(EXTRA_CATALOG_ITEM);
-            } else {
-                finish();
-                return;
-            }
+        // First execution, grab intent extra
+        Intent intent = getIntent();
+        if (intent != null) {
+            isCustom = intent.getBooleanExtra(EXTRA_IS_CUSTOM, false);
+            catalogItem = intent.getParcelableExtra(EXTRA_CATALOG_ITEM);
         } else {
-            // Application resumed, grab intent extra
+            finish();
+            return;
         }
 
         textBox = (ConstraintLayout) findViewById(R.id.set_text_box);
