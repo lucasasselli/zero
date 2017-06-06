@@ -23,8 +23,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.lucasasselli.zero.async.CustomCreator;
 import com.lucasasselli.zero.async.MyAsync;
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
 
     private Context context;
     private Uri imageUri;
+    private boolean nextWeekToastShown = false;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -124,6 +127,23 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         catalog = new Catalog();
         catalogList.setAdapter(catalogAdapter);
         catalogList.setOnItemClickListener(catalogItemClickListener);
+        catalogList.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (totalItemCount > 0 && totalItemCount >= visibleItemCount && (firstVisibleItem + visibleItemCount >= totalItemCount)) {
+                    // End has been reached, show toast
+                    if (!nextWeekToastShown) {
+                        Toast.makeText(context, R.string.main_alert_nextweek, Toast.LENGTH_SHORT).show();
+                        nextWeekToastShown = true;
+                    }
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+        });
 
         // Before anything check if the sensors are available
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -143,6 +163,22 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         }
 
         infoView.show(R.string.main_info_empty_title, R.string.main_info_empty_message);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Register broadcast listener
+        registerReceiver(broadcastReceiver, broadcastFilter);
+
+        // Just to be super safe
+        checkProContent();
+
+        // Check if refresh is running without service
+        if (swipeRefreshLayout.isRefreshing() && !SyncManager.isRunning()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
 
         // Load catalog if available
         loadLocalContent();
@@ -155,27 +191,10 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
 
         if (delta < 0 || delta > T_CATALOG_EXPIRATION || catalog.size() == 0) {
             // Catalog has expired download
-            Log.d(TAG, "Load remote needed");
+            Log.d(TAG, "Catalog has reached expiration");
             loadRemoteContent();
         } else {
-            Log.d(TAG, "Catalog loaded locally!");
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Register broadcast listener
-        registerReceiver(broadcastReceiver, broadcastFilter);
-
-        // Just to be super safe
-        checkProContent();
-        refreshList();
-
-        // Check if refresh is running without service
-        if (swipeRefreshLayout.isRefreshing() && !SyncManager.isRunning()) {
-            swipeRefreshLayout.setRefreshing(false);
+            Log.d(TAG, "Catalog is still valid!");
         }
     }
 
@@ -205,11 +224,16 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
     }
 
     @Override
-    public void onFailed(int id) {
+    public void onFailed(int id, Bundle bundle) {
         switch (id) {
             case WallpaperDownloader.ID:
                 swipeRefreshLayout.setRefreshing(false); // Stop refresh layout
-                showBackgroundDownloadError(); // Show background download error
+                int errorCode = bundle.getInt(WallpaperDownloader.EXTRA_FAIL_CODE);
+                if (errorCode == WallpaperDownloader.FAIL_CODE_TIMEOUT) {
+                    showTimeoutError();
+                } else {
+                    showBackgroundDownloadError(); // Show background download error
+                }
                 break;
 
             case CustomCreator.ID:
@@ -246,23 +270,7 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
 
             case R.id.main_menu_custom:
                 // Set custom background
-                if (checkProVersion(this)) {
-                    startPicker();
-                } else {
-                    new AlertDialog.Builder(context)
-                            .setTitle(R.string.pro_custom_dialog_title)
-                            .setMessage(R.string.pro_custom_dialog_content)
-                            .setPositiveButton(R.string.common_ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Open playstore
-                                    openPlaystore(context, PRO_NAME);
-                                }
-                            })
-
-                            .setNegativeButton(R.string.common_cancel, null)
-                            .show();
-                }
+                startPicker();
                 return true;
 
             case R.id.main_menu_settings:
@@ -524,5 +532,9 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
 
     private void showCustomBackgroundError() {
         Snackbar.make(rootView, R.string.error_customwp, Snackbar.LENGTH_LONG).show();
+    }
+
+    private void showTimeoutError() {
+        Snackbar.make(rootView, R.string.error_timeout, Snackbar.LENGTH_LONG).show();
     }
 }

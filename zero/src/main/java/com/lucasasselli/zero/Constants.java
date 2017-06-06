@@ -24,9 +24,9 @@ public class Constants {
     public final static double VERTICAL_FIX = 0.01;
 
     // Time
-    public final static long T_CATALOG_EXPIRATION = 24 * 3600;
+    public final static long T_CATALOG_EXPIRATION = 100;
     public final static long T_SYNC_PERIOD = 24 * 3600;
-
+    public final static int T_SERVER_TIMEOUT = 30000;
     // File system
     public final static String FS_DIR_ZERO = "Zero";
     public final static String FS_DIR_CACHE = "cache";
@@ -52,7 +52,7 @@ public class Constants {
     // Preferences
     // NOTE: These are internal preferences not available to the user in the settings
     public final static String PREF_BACKGROUND = "background";
-    public final static String PREF_BACKGROUND_DEFAULT = "00000";
+    public final static String PREF_BACKGROUND_DEFAULT = "fallback";
     public final static String PREF_CHECKSENS = "checksens";
     public final static boolean PREF_CHECKSENS_DEFAULT = true;
 }

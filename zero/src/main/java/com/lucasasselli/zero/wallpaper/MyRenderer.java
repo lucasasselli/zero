@@ -137,51 +137,52 @@ class MyRenderer implements GLSurfaceView.Renderer {
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
 
-        // Draw the layers
-        if (layerList != null) {
+        // Initialize arrays
+        if (!deltaInit) {
+            deltaArrayNew = new float[textures.length][2];
+            deltaArrayOld = new float[textures.length][2];
+            deltaInit = true;
+        }
 
-            // Initialize arrays
-            if (!deltaInit) {
-                deltaArrayNew = new float[textures.length][2];
-                deltaArrayOld = new float[textures.length][2];
-                deltaInit = true;
+        // Compute deltas
+        for (int i = 0; i < textures.length; i++) {
+            // Get layer z
+            double z;
+            if (!loadedWallpaperId.equals(PREF_BACKGROUND_DEFAULT)) {
+                z = layerList.get(i).getZ();
+            } else {
+                z = 0;
             }
 
-            // Compute deltas
-            for (int i = 0; i < textures.length; i++) {
-                // Get layer z
-                double z = layerList.get(i).getZ();
-
-                // Compute the launcher page offset
-                double scrollOffset;
-                if (prefScroll) {
-                    scrollOffset = offset / (prefScrollAmount * z);
-                } else {
-                    scrollOffset = 0;
-                }
-
-                // Compute the x-y offset
-                float deltaX = (float) -(scrollOffset + (parallax.getDegX() / 180.0 * (prefDepth * z)));
-                float deltaY = (float) (parallax.getDegY() / 180.0 * (prefDepth * z));
-
-                // Limit max offset
-                if ((abs(deltaX) > deltaXMax || abs(deltaY) > deltaYMax) && prefLimit) {
-                    deltaArrayNew = deltaArrayOld.clone();
-                    break;
-                }
-
-                deltaArrayOld = deltaArrayNew.clone();
-
-                deltaArrayNew[i][0] = deltaX;
-                deltaArrayNew[i][1] = deltaY;
+            // Compute the launcher page offset
+            double scrollOffset;
+            if (prefScroll && z != 0) {
+                scrollOffset = offset / (prefScrollAmount * z);
+            } else {
+                scrollOffset = 0;
             }
 
-            // Draw layers
-            for (int i = 0; i < textures.length; i++) {
-                float[] layerMatrix = MVPMatrix.clone();
-                Matrix.translateM(layerMatrix, 0, deltaArrayNew[i][0], deltaArrayNew[i][1], 0);
-                glLayer.draw(textures[i], layerMatrix);
+            // Compute the x-y offset
+            float deltaX = (float) -(scrollOffset + (parallax.getDegX() / 180.0 * (prefDepth * z)));
+            float deltaY = (float) (parallax.getDegY() / 180.0 * (prefDepth * z));
+
+            // Limit max offset
+            if ((abs(deltaX) > deltaXMax || abs(deltaY) > deltaYMax) && prefLimit) {
+                deltaArrayNew = deltaArrayOld.clone();
+                break;
             }
+
+            deltaArrayOld = deltaArrayNew.clone();
+
+            deltaArrayNew[i][0] = deltaX;
+            deltaArrayNew[i][1] = deltaY;
+        }
+
+        // Draw layers
+        for (int i = 0; i < textures.length; i++) {
+            float[] layerMatrix = MVPMatrix.clone();
+            Matrix.translateM(layerMatrix, 0, deltaArrayNew[i][0], deltaArrayNew[i][1], 0);
+            glLayer.draw(textures[i], layerMatrix);
         }
     }
 
@@ -240,44 +241,52 @@ class MyRenderer implements GLSurfaceView.Renderer {
         }
 
         // Generate the new textures
-        layerList = BackgroundHelper.loadFromFile(prefWallpaperId, context);
-        if (layerList != null) {
-            int layerCount = layerList.size();
+        if (!prefWallpaperId.equals(PREF_BACKGROUND_DEFAULT)) {
+            layerList = BackgroundHelper.loadFromFile(prefWallpaperId, context);
+        }
 
-            // Create glTexture array
-            textures = new int[layerCount];
-            GLES20.glGenTextures(layerCount, textures, 0);
+        boolean fallback;
+        fallback = !(layerList != null && !prefWallpaperId.equals(PREF_BACKGROUND_DEFAULT));
 
-            Bitmap tempBitmap;
+        int layerCount = fallback ? 1 : layerList.size();
 
-            for (int i = 0; i < textures.length; i++) {
-                // Load bitmap
+        // Create glTexture array
+        textures = new int[layerCount];
+        GLES20.glGenTextures(layerCount, textures, 0);
+
+        Bitmap tempBitmap;
+
+        for (int i = 0; i < textures.length; i++) {
+            // Load bitmap
+            if (!fallback) {
                 File bitmapFile = layerList.get(i).getFile();
                 tempBitmap = BackgroundHelper.decodeScaledFromFile(bitmapFile);
-
-                if (i == 0) {
-                    int backgroundColor = Utils.calculateAverageColor(tempBitmap, 5);
-                    // Set the background frame color
-                    float r = (float) Color.red(backgroundColor) / 255.0f;
-                    float g = (float) Color.green(backgroundColor) / 255.0f;
-                    float b = (float) Color.blue(backgroundColor) / 255.0f;
-                    GLES20.glClearColor(r, g, b, 1.0f);
-                }
-
-                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[i]);
-
-                GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-                GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-                GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
-                GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
-                GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, tempBitmap, 0);
-
-                // Free memory
-                tempBitmap.recycle();
+            } else {
+                tempBitmap = BackgroundHelper.decodeScaledFromRes(context.getResources(), R.drawable.fallback);
             }
 
-            glLayer = new GLLayer();
+            if (i == 0) {
+                int backgroundColor = Utils.calculateAverageColor(tempBitmap, 5);
+                // Set the background frame color
+                float r = (float) Color.red(backgroundColor) / 255.0f;
+                float g = (float) Color.green(backgroundColor) / 255.0f;
+                float b = (float) Color.blue(backgroundColor) / 255.0f;
+                GLES20.glClearColor(r, g, b, 1.0f);
+            }
+
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[i]);
+
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, tempBitmap, 0);
+
+            // Free memory
+            tempBitmap.recycle();
         }
+
+        glLayer = new GLLayer();
     }
 
     void setOffset(float offset) {

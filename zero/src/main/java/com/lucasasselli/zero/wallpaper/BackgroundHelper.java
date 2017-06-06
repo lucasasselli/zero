@@ -1,6 +1,7 @@
 package com.lucasasselli.zero.wallpaper;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -85,6 +86,18 @@ class BackgroundHelper {
         options.inJustDecodeBounds = false;
 
         return BitmapFactory.decodeFile(file.getPath(), options);
+    }
+
+    static Bitmap decodeScaledFromRes(Resources res, int id) {
+        // Get the size
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+
+        BitmapFactory.decodeResource(res, id, options);
+
+        options.inJustDecodeBounds = false;
+
+        return BitmapFactory.decodeResource(res, id, options);
     }
 
     static class Layer {

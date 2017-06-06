@@ -30,6 +30,7 @@
     <string name="error_preview_notfound">Preview unavailable</string>
     <string name="error_wpsetter">Live wallpaper setter not found!</string>
     <string name="error_customwp">Unable to create custom wallpaper!</string>
+    <string name="error_timeout">Connection timeout. Try again later!</string>
     <string name="error_catalog">Unable retrieve catalog!</string>
     <string name="error_browser">Unable open browser!</string>
 
@@ -55,6 +56,7 @@
     <string name="pro_custom_dialog_content">To create a custom wallpaper you must install the PRO version. Do you want to download it now?</string>
 
     <string name="main_alert_deleted">Local copy deleted!</string>
+    <string name="main_alert_nextweek">New wallpapers coming every week!</string>
 
     <string name="main_menu_sort_popularity">Popularity</string>
     <string name="main_menu_sort_new">New</string>

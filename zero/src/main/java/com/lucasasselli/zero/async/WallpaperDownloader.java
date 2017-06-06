@@ -18,10 +18,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import static com.lucasasselli.zero.Constants.T_SERVER_TIMEOUT;
 import static com.lucasasselli.zero.Utils.bytes2String;
 import static com.lucasasselli.zero.utils.StorageHelper.deleteFolder;
 import static com.lucasasselli.zero.utils.StorageHelper.getCacheFolder;
@@ -37,6 +39,10 @@ public class WallpaperDownloader extends MyAsync {
     // Constants
     public static final int ID = 1;
     public static final String EXTRA_CATALOG_ITEM = "item";
+    public static final String EXTRA_FAIL_CODE = "fail_code";
+    public static final int FAIL_CODE_GENERIC = 0;
+    public static final int FAIL_CODE_TIMEOUT = 1;
+    public static final int RESULT_TIMEOUT = 2;
 
     private final Context context;
 
@@ -92,6 +98,8 @@ public class WallpaperDownloader extends MyAsync {
             String urlString = UrlFactory.getDownloadUrl(catalogItem);
             URL url = new URL(urlString);
             urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setConnectTimeout(T_SERVER_TIMEOUT);
+            urlConnection.setReadTimeout(T_SERVER_TIMEOUT);
             urlConnection.connect();
 
             if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
@@ -120,7 +128,13 @@ public class WallpaperDownloader extends MyAsync {
                     publishProgress(total * 100 / fileLength, total, fileLength);
                 output.write(data, 0, count);
             }
+        } catch (SocketTimeoutException e) {
+            // Connection timeout
+            Log.e(TAG, "Connection timeout");
+            return RESULT_TIMEOUT;
+
         } catch (Exception e) {
+            // Generic error
             Log.e(TAG, "IO Exception");
             e.printStackTrace();
             return RESULT_FAIL;
@@ -228,16 +242,23 @@ public class WallpaperDownloader extends MyAsync {
             try {
                 progressDialog.dismiss();
             } catch (IllegalArgumentException e) {
-                Log.e(TAG, "Excepation while dismissing dialog", e);
+                Log.e(TAG, "Exception while dismissing dialog", e);
             }
 
         // Call listener
+        Bundle bundle = new Bundle();
         if (result == RESULT_SUCCESS) {
-            Bundle bundle = new Bundle();
+            // Success
             bundle.putParcelable(EXTRA_CATALOG_ITEM, catalogItem);
             getListener().onCompleted(ID, bundle);
+        } else if (result == RESULT_TIMEOUT) {
+            // Error: timeout
+            bundle.putInt(EXTRA_FAIL_CODE, FAIL_CODE_TIMEOUT);
+            getListener().onFailed(ID, bundle);
         } else {
-            getListener().onFailed(ID);
+            // Error: generic
+            bundle.putInt(EXTRA_FAIL_CODE, FAIL_CODE_GENERIC);
+            getListener().onFailed(ID, bundle);
         }
     }
 }

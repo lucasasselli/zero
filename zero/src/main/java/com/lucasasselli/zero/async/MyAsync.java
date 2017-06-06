@@ -50,6 +50,6 @@ public abstract class MyAsync extends AsyncTask<Void, Integer, Integer> {
     public interface MyAsyncInterface {
         void onCompleted(int id, Bundle extra);
 
-        void onFailed(int id);
+        void onFailed(int id, Bundle extra);
     }
 }

@@ -80,7 +80,7 @@ public class CustomCreator extends MyAsync {
         if (result == RESULT_SUCCESS) {
             getListener().onCompleted(ID, null);
         } else {
-            getListener().onFailed(ID);
+            getListener().onFailed(ID, null);
         }
     }
 }
