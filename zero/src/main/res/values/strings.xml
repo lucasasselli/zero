@@ -71,5 +71,4 @@
     <string name="settings_title">Settings</string>
     <string name="settings_dialog_delete_title">Delete local content</string>
     <string name="settings_dialog_delete_message">Do you really want to download the local content?</string>
-
 </resources>
