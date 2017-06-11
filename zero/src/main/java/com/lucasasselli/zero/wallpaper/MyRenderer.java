@@ -34,14 +34,6 @@ import static java.lang.Math.abs;
 
 class MyRenderer implements GLSurfaceView.Renderer {
 
-    private final Context context;
-
-    private GLLayer glLayer;
-    private final Parallax parallax;
-
-    // External
-    private double offset;
-
     // Screen
     private int orientation;
     private float deltaXMax;
@@ -61,37 +53,48 @@ class MyRenderer implements GLSurfaceView.Renderer {
     private double prefScrollAmount;
     private float prefZoom;
     private String prefWallpaperId;
+
+    // External
+    private double offset;
+
+    // Internal
     private String loadedWallpaperId;
-
-
-    // Preview
     private boolean isPreview = false;
     private boolean isFallback;
 
     private List<BackgroundHelper.Layer> layerList;
     
     // Opengl stuff
+    private GLLayer glLayer;
     private final float[] MVPMatrix = new float[16];
     private final float[] projectionMatrix = new float[16];
     private final float[] viewMatrix = new float[16];
-
     private int[] textures;
 
+    private final Parallax parallax;
+    private final Context context;
+
+    // Default constructor
     MyRenderer(Context context) {
 
         this.context = context;
         parallax = new Parallax(context);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
+        // Not a preview
+        isPreview = false;
+
         start();
     }
 
+    // Preview constructor
     MyRenderer(Context context, String prefWallpaperId) {
 
         this.context = context;
         parallax = new Parallax(context);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
+        // Is a preview
         this.prefWallpaperId = prefWallpaperId;
         isPreview = true;
 
@@ -100,13 +103,14 @@ class MyRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        // Nothing
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
 
-        // Rescale
+        // Refit wallpaper to match screen orientation
         if (orientation == ORIENTATION_PORTRAIT) {
             float ratio = (float) width / height;
             deltaXMax = (0.5f * ratio) / prefZoom;
@@ -119,7 +123,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
             Matrix.frustumM(projectionMatrix, 0, -prefZoom, prefZoom, -ratio * prefZoom, ratio * prefZoom, 3, 7);
         }
 
-        // Create layers
+        // Create layers only if wallpaper has changed
         if (!prefWallpaperId.equals(loadedWallpaperId)) {
             generateLayers();
         }
@@ -239,17 +243,20 @@ class MyRenderer implements GLSurfaceView.Renderer {
             GLES20.glDeleteTextures(textures.length, textures, 0);
         }
 
-        // Generate the new textures
+        // Assume that the layer is fallback
         int layerCount = 1;
         isFallback = true;
+
         if (!prefWallpaperId.equals(PREF_BACKGROUND_DEFAULT)) {
             layerList = BackgroundHelper.loadFromFile(prefWallpaperId, context);
             if (layerList != null) {
+                // Layer loaded correctly
                 prefWallpaperId = PREF_BACKGROUND_DEFAULT;
                 isFallback = false;
                 layerCount = layerList.size();
             }
         }
+
         // Create glTexture array
         textures = new int[layerCount];
         GLES20.glGenTextures(layerCount, textures, 0);
@@ -266,6 +273,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
             }
 
             if (i == 0) {
+                // Solid black background
                 GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             }
 
@@ -275,6 +283,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+            // FIXME Null pointer exception
             GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, tempBitmap, 0);
 
             // Free memory

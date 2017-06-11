@@ -42,15 +42,14 @@ public class WallpaperDownloader extends MyAsync {
     public static final String EXTRA_FAIL_CODE = "fail_code";
     public static final int FAIL_CODE_GENERIC = 0;
     public static final int FAIL_CODE_TIMEOUT = 1;
-    public static final int RESULT_TIMEOUT = 2;
-
-    private final Context context;
 
     // Layout
     private final ProgressDialog progressDialog;
 
     // Data
     private final CatalogItem catalogItem;
+
+    private final Context context;
 
     public WallpaperDownloader(Context context, CatalogItem item) {
         super(context);

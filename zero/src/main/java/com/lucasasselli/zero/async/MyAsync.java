@@ -10,6 +10,7 @@ public abstract class MyAsync extends AsyncTask<Void, Integer, Integer> {
     // Constants
     public static final int RESULT_FAIL = 0;
     public static final int RESULT_SUCCESS = 1;
+    public static final int RESULT_TIMEOUT = 2;
 
     private final Context context;
 

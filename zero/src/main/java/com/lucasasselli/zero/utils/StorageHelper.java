@@ -155,6 +155,8 @@ public class StorageHelper {
     }
 
     public static boolean deleteFolder(File file) {
+        if (file == null) return false;
+
         if (file.isDirectory())
             for (File child : file.listFiles())
                 if (!deleteFolder(child)) {
