@@ -237,12 +237,12 @@ public class WallpaperDownloader extends MyAsync {
     protected void onPostExecute(Integer result) {
 
         // Dismiss progress dialog, if exist
-        if ((progressDialog != null) && progressDialog.isShowing())
-            try {
+        try {
+            if ((progressDialog != null) && progressDialog.isShowing())
                 progressDialog.dismiss();
-            } catch (IllegalArgumentException e) {
-                Log.e(TAG, "Exception while dismissing dialog", e);
-            }
+        } catch (IllegalArgumentException e) {
+            // IGNORE
+        }
 
         // Call listener
         Bundle bundle = new Bundle();

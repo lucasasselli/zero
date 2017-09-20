@@ -222,6 +222,9 @@ public class SyncManager extends IntentService {
                 return RESULT_FAIL;
             }
 
+            // Better safe then sorry!
+            if (items == null) return RESULT_FAIL;
+
             // Store internally
             int result;
 

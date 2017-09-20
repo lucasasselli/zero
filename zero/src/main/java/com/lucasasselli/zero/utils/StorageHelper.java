@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -155,14 +157,17 @@ public class StorageHelper {
     }
 
     public static boolean deleteFolder(File file) {
-        if (file == null) return false;
+        if (file != null) {
+            try {
+                FileUtils.deleteDirectory(file);
+            } catch (IOException e) {
+                Log.e(TAG, "Unable to delete folder " + file.getName(), e);
+                return false;
+            }
 
-        if (file.isDirectory())
-            for (File child : file.listFiles())
-                if (!deleteFolder(child)) {
-                    return false;
-                }
-
-        return file.delete();
+            return true;
+        } else {
+            return false;
+        }
     }
 }

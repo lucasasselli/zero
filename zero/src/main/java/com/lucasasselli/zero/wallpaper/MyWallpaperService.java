@@ -20,6 +20,7 @@ public class MyWallpaperService extends GLWallpaperService {
             // Set version
             setEGLContextClientVersion(2);
             setPreserveEGLContextOnPause(true);
+
             // Set renderer
             renderer = new MyRenderer(getApplicationContext());
             setRenderer(renderer);

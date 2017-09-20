@@ -73,8 +73,12 @@ public class CustomCreator extends MyAsync {
         super.onPostExecute(result);
 
         // Dismiss progress dialog, if exist
-        if ((progressDialog != null) && progressDialog.isShowing())
-            progressDialog.dismiss();
+        try {
+            if ((progressDialog != null) && progressDialog.isShowing())
+                progressDialog.dismiss();
+        } catch (final IllegalArgumentException e) {
+            // IGNORE
+        }
 
         // Call listener
         if (result == RESULT_SUCCESS) {
