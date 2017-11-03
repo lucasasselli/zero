@@ -134,6 +134,21 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+            final Preference dim = findPreference(getString(R.string.pref_dim_key));
+            dim.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    setSliderPref(
+                            sharedPreferences,
+                            R.string.pref_dim_key,
+                            R.string.pref_dim_title,
+                            R.string.pref_dim_default);
+
+                    return false;
+                }
+            });
+
             // Delete
             final Preference delete = findPreference(getString(R.string.pref_delete_key));
             delete.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

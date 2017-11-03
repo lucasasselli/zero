@@ -50,6 +50,13 @@
             android:key="@string/pref_scroll_amount_key"
             android:defaultValue="@string/pref_scroll_amount_default" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_appearance">
+        <Preference
+            android:title="@string/pref_dim_title"
+            android:summary="@string/pref_dim_summary"
+            android:key="@string/pref_dim_key"
+            android:defaultValue="@string/pref_dim_default" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_cat_notification">
         <SwitchPreference
             android:title="@string/pref_notification_title"

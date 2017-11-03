@@ -3,6 +3,7 @@ package com.lucasasselli.zero.wallpaper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
@@ -20,6 +21,7 @@ import javax.microedition.khronos.opengles.GL10;
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 import static com.lucasasselli.zero.Constants.DEPTH_MAX;
 import static com.lucasasselli.zero.Constants.DEPTH_MIN;
+import static com.lucasasselli.zero.Constants.DIM_MAX;
 import static com.lucasasselli.zero.Constants.FALLBACK_MAX;
 import static com.lucasasselli.zero.Constants.FALLBACK_MIN;
 import static com.lucasasselli.zero.Constants.PREF_BACKGROUND;
@@ -52,6 +54,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
     private double prefDepth;
     private double prefScrollAmount;
     private float prefZoom;
+    private int prefDim;
     private String prefWallpaperId;
 
     // External
@@ -147,7 +150,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
         }
 
         // Compute deltas
-        for (int i = 0; i < textures.length; i++) {
+        for (int i = 0; i < textures.length - 1; i++) {
             // Get layer z
             double z;
             if (!isFallback) {
@@ -181,11 +184,15 @@ class MyRenderer implements GLSurfaceView.Renderer {
         }
 
         // Draw layers
-        for (int i = 0; i < textures.length; i++) {
+        for (int i = 0; i < textures.length - 1; i++) {
             float[] layerMatrix = MVPMatrix.clone();
             Matrix.translateM(layerMatrix, 0, deltaArrayNew[i][0], deltaArrayNew[i][1], 0);
             glLayer.draw(textures[i], layerMatrix);
         }
+
+        // Overlay
+        float[] layerMatrix = MVPMatrix.clone();
+        glLayer.draw(textures[textures.length - 1], layerMatrix);
     }
 
     // This method must be called every time the renderer is started or to reload the settings
@@ -232,6 +239,9 @@ class MyRenderer implements GLSurfaceView.Renderer {
         String scrollAmountString = sharedPreferences.getString(context.getString(R.string.pref_scroll_amount_key), context.getString(R.string.pref_scroll_amount_default));
         prefScrollAmount = SCROLL_AMOUNT_MIN + Double.valueOf(scrollAmountString) * (SCROLL_AMOUNT_MAX / 100.0);
 
+        String dimString = sharedPreferences.getString(context.getString(R.string.pref_dim_key), context.getString(R.string.pref_dim_default));
+        prefDim = (int) ((Double.valueOf(dimString)) * (DIM_MAX / 100.0));
+
         // Set parallax settings
         parallax.setFallback(fallback);
         parallax.setSensitivity(sensitivity);
@@ -257,19 +267,32 @@ class MyRenderer implements GLSurfaceView.Renderer {
             }
         }
 
+        // Useful info
+        int width = 0;
+        int height = 0;
+
         // Create glTexture array
-        textures = new int[layerCount];
-        GLES20.glGenTextures(layerCount, textures, 0);
+        textures = new int[layerCount + 1];
+        GLES20.glGenTextures(layerCount + 1, textures, 0); // Layer + Overlay
 
         Bitmap tempBitmap;
 
         for (int i = 0; i < textures.length; i++) {
-            // Load bitmap
-            if (!isFallback) {
-                File bitmapFile = layerList.get(i).getFile();
-                tempBitmap = BackgroundHelper.decodeScaledFromFile(bitmapFile);
+            if (i < textures.length - 1) {
+                // Load bitmap
+                if (!isFallback) {
+                    File bitmapFile = layerList.get(i).getFile();
+                    tempBitmap = BackgroundHelper.decodeScaledFromFile(bitmapFile);
+                    tempBitmap.getWidth();
+                } else {
+                    tempBitmap = BackgroundHelper.decodeScaledFromRes(context.getResources(), R.drawable.fallback);
+                }
+                width = tempBitmap.getWidth();
+                height = tempBitmap.getHeight();
             } else {
-                tempBitmap = BackgroundHelper.decodeScaledFromRes(context.getResources(), R.drawable.fallback);
+                // Generate overlay
+                tempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                tempBitmap.eraseColor(Color.argb(prefDim, 0, 0, 0));
             }
 
             if (i == 0) {

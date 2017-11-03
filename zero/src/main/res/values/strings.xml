@@ -1,7 +1,7 @@
 <resources>
     <!-- Base -->
     <string name="app_name">Zero</string>
-    <string name="app_version">1.6.6</string>
+    <string name="app_version">1.7.0</string>
     <string name="my_name">Luca Sasselli</string>
 
     <!-- Common -->
@@ -66,6 +66,9 @@
     <string name="set_dialog_notzero_message">In order to work, Zero must be set as your live wallpaper. Do you want to set it now?</string>
 
     <string name="set_alert_changed">Wallpaper changed!</string>
+
+    <!-- Preview Activity -->
+    <string name="prev_thisisaprev_toast">This is only a demo animation. Download the wallpaper to see it in action!</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>

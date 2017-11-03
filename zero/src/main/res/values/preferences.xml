@@ -4,6 +4,7 @@
     <string name="pref_cat_general">Zoom</string>
     <string name="pref_cat_sensor">Sensor</string>
     <string name="pref_cat_scrolling">Scrolling</string>
+    <string name="pref_cat_appearance">Appearance</string>
     <string name="pref_cat_notification">Notifications</string>
     <string name="pref_cat_data">Data</string>
     <string name="pref_cat_info">Info</string>
@@ -19,6 +20,7 @@
     <string name="pref_scroll_amount_title">Scroll amount</string>
     <string name="pref_delete_title">Delete local content</string>
     <string name="pref_notification_title">Enable notification</string>
+    <string name="pref_dim_title">Dim wallpaper</string>
 
     <!-- Preference summaries-->
     <string name="pref_sensor_summary">Enable orientation sensor</string>
@@ -31,6 +33,7 @@
     <string name="pref_scroll_amount_summary">How much the wallpaper scrolls</string>
     <string name="pref_delete_summary">Free memory by removing the downloaded backgrounds</string>
     <string name="pref_notification_summary">Send a notification when new wallpapers are available</string>
+    <string name="pref_dim_summary">Make wallpaper darker to increase contrast</string>
 
     <!-- Preference Keys-->
     <string name="pref_sensor_key">sensor</string>
@@ -43,6 +46,7 @@
     <string name="pref_scroll_amount_key">scroll_amount</string>
     <string name="pref_delete_key">delete</string>
     <string name="pref_notification_key">notification</string>
+    <string name="pref_dim_key">dim</string>
 
     <!-- Preference Default -->
     <bool name="pref_sensor_default">true</bool>
@@ -54,5 +58,6 @@
     <bool name="pref_scroll_default">true</bool>
     <string name="pref_scroll_amount_default">50</string>
     <bool name="pref_notification_default">true</bool>
+    <string name="pref_dim_default">0</string>
 
 </resources>
