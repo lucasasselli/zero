@@ -2,15 +2,18 @@ package com.lucasasselli.zero;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lucasasselli.zero.async.MyAsync;
 import com.lucasasselli.zero.components.SquareVideoView;
@@ -50,6 +53,9 @@ public class PreviewActivity extends AppCompatActivity {
     // Data
     private CatalogItem catalogItem;
 
+
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +69,9 @@ public class PreviewActivity extends AppCompatActivity {
         } else {
             finish();
         }
+
+        // Get preferences
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Set title text
         titleText = (TextView) findViewById(R.id.prev_text_title);
@@ -142,6 +151,13 @@ public class PreviewActivity extends AppCompatActivity {
 
         videoView.setVideoURI(uri);
         videoView.start();
+
+        // Show preview toast
+        boolean firstPrev = sharedPreferences.getBoolean(Constants.PREF_FIRSTPREV, Constants.PREF_FIRSTPREV_DEFAULT);
+        if (firstPrev) {
+            Toast.makeText(this, getString(R.string.prev_thisisaprev_toast), Toast.LENGTH_LONG).show();
+            sharedPreferences.edit().putBoolean(Constants.PREF_FIRSTPREV, false).apply();
+        }
     }
 
     private void showError(int stringId) {

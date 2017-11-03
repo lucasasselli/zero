@@ -8,6 +8,8 @@ public class Constants {
     public final static String PRO_NAME = "com.lucasasselli.zeropro";
     public final static String SERVICE_NAME = PACKAGE_NAME + ".wallpaper.MyWallpaperService";
 
+    public final static boolean DEBUG_PRO = false;
+
     // Parallax
     public final static double SENSITIVITY_MIN = 0.1;
     public final static double SENSITIVITY_MAX = 0.5;
@@ -19,6 +21,7 @@ public class Constants {
     public final static double ZOOM_MAX = 1.0;
     public final static double SCROLL_AMOUNT_MIN = 0.3;
     public final static double SCROLL_AMOUNT_MAX = 0.05;
+    public final static double DIM_MAX = 200.0;
 
     // Sensor
     public final static double VERTICAL_FIX = 0.01;
@@ -57,4 +60,6 @@ public class Constants {
     public final static boolean PREF_CHECKSENS_DEFAULT = true;
     public final static String PREF_NEXTWEEK = "nextweek";
     public final static boolean PREF_NEXTWEEK_DEFAULT = false;
+    public final static String PREF_FIRSTPREV = "firstprev";
+    public final static boolean PREF_FIRSTPREV_DEFAULT = true;
 }

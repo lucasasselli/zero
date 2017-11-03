@@ -73,7 +73,7 @@ public class Utils {
     // Check if PRO version is installed
     public static boolean checkProVersion(Context context) {
         PackageManager manager = context.getPackageManager();
-        return (manager.checkSignatures(context.getPackageName(), PRO_NAME) == PackageManager.SIGNATURE_MATCH || BuildConfig.DEBUG);
+        return (manager.checkSignatures(context.getPackageName(), PRO_NAME) == PackageManager.SIGNATURE_MATCH || (BuildConfig.DEBUG && Constants.DEBUG_PRO));
     }
 
     // Check if sensor is available

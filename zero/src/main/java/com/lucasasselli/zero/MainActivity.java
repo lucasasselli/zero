@@ -28,6 +28,9 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.lucasasselli.zero.async.CustomCreator;
 import com.lucasasselli.zero.async.MyAsync;
 import com.lucasasselli.zero.async.WallpaperDownloader;
@@ -76,6 +79,9 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
     private CatalogAdapter catalogAdapter;
     private Catalog catalog;
 
+    // Bottom banner
+    private InterstitialAd interstitialAd;
+
     // Broadcast listener
     private final IntentFilter broadcastFilter = new IntentFilter(SyncManager.ACTION_SYNC);
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -106,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
     private Context context;
     private Uri imageUri;
     private boolean nextWeekToastShown = false;
+
+    private boolean wallpaperDownloaded = false;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -171,6 +179,15 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         }
 
         infoView.show(R.string.main_info_empty_title, R.string.main_info_empty_message);
+
+        // Ads (May God forgive my soul)
+        MobileAds.initialize(this, Secrets.ADMOB_ID);
+
+        if (!checkProVersion(context)) {
+            interstitialAd = new InterstitialAd(this);
+            interstitialAd.setAdUnitId(Secrets.ADMOB_INTERSTITIAL);
+            interstitialAd.loadAd(new AdRequest.Builder().build());
+        }
     }
 
     @Override
@@ -204,6 +221,16 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         } else {
             Log.d(TAG, "Catalog is still valid!");
         }
+
+        if (wallpaperDownloaded) {
+            if (!checkProVersion(context))
+                if (interstitialAd.isLoaded()) {
+                    interstitialAd.show();
+                    wallpaperDownloaded = false;
+                } else {
+                    Log.d(TAG, "The interstitial wasn't loaded yet.");
+                }
+        }
     }
 
 
@@ -223,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
                 CatalogItem downloadedItem = extra.getParcelable(WallpaperDownloader.EXTRA_CATALOG_ITEM);
                 startSetActivity(downloadedItem);
                 refreshList(); // refresh list for downloaded icon
+                wallpaperDownloaded = true; // Used to enable ads
                 break;
 
             case CustomCreator.ID:
