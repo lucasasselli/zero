@@ -4,7 +4,7 @@
 width="200"
     hspace="10" vspace="10">
 
-Zero is an open source, ad-free live wallpaper app for android.
+Zero is an open source, live wallpaper app for android.
 
 Zero is available on the Google Play.  
 <a href="https://play.google.com/store/apps/details?id=com.lucasasselli.zero">
