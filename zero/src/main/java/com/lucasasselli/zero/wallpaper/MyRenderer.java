@@ -9,6 +9,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.lucasasselli.zero.R;
 
@@ -35,6 +36,8 @@ import static com.lucasasselli.zero.Constants.ZOOM_MIN;
 import static java.lang.Math.abs;
 
 class MyRenderer implements GLSurfaceView.Renderer {
+
+    private static final String TAG = "Renderer";
 
     // Screen
     private int orientation;
@@ -63,7 +66,8 @@ class MyRenderer implements GLSurfaceView.Renderer {
     // Internal
     private String loadedWallpaperId;
     private boolean isPreview = false;
-    private boolean isFallback;
+    private boolean hasOverlay = false;
+    private boolean isFallback = false;
 
     private List<BackgroundHelper.Layer> layerList;
     
@@ -183,16 +187,26 @@ class MyRenderer implements GLSurfaceView.Renderer {
             deltaArrayNew[i][1] = deltaY;
         }
 
+        int layerCount;
+        if (hasOverlay) {
+            layerCount = textures.length - 1;
+        } else {
+            layerCount = textures.length;
+        }
+
         // Draw layers
-        for (int i = 0; i < textures.length - 1; i++) {
+        for (int i = 0; i < layerCount; i++) {
             float[] layerMatrix = MVPMatrix.clone();
             Matrix.translateM(layerMatrix, 0, deltaArrayNew[i][0], deltaArrayNew[i][1], 0);
             glLayer.draw(textures[i], layerMatrix);
         }
 
         // Overlay
-        float[] layerMatrix = MVPMatrix.clone();
-        glLayer.draw(textures[textures.length - 1], layerMatrix);
+        if (hasOverlay) {
+            // Has an overlay
+            float[] layerMatrix = MVPMatrix.clone();
+            glLayer.draw(textures[textures.length - 1], layerMatrix);
+        }
     }
 
     // This method must be called every time the renderer is started or to reload the settings
@@ -209,7 +223,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
     }
 
     // Only pauses the sensor! OpenGL view is managed elsewhere
-    public void stop() {
+    void stop() {
         if (prefSensor) parallax.stop();
     }
 
@@ -249,22 +263,28 @@ class MyRenderer implements GLSurfaceView.Renderer {
 
     private void generateLayers() {
         // Clean old textures (if any) before loading the new ones
-        if (textures != null) {
-            GLES20.glDeleteTextures(textures.length, textures, 0);
-        }
+        clearTextures();
 
         // Assume that the layer is fallback
-        int layerCount = 1;
-        isFallback = true;
+        int layerCount = 0;
+        isFallback = false;
+        hasOverlay = true;
 
         if (!prefWallpaperId.equals(PREF_BACKGROUND_DEFAULT)) {
+            // If the wallpaper is not the fallback one
             layerList = BackgroundHelper.loadFromFile(prefWallpaperId, context);
             if (layerList != null) {
                 // Layer loaded correctly
                 prefWallpaperId = PREF_BACKGROUND_DEFAULT;
                 isFallback = false;
                 layerCount = layerList.size();
+            } else {
+                deployFallbackWallpaper();
+                return;
             }
+        } else {
+            deployFallbackWallpaper();
+            return;
         }
 
         // Useful info
@@ -280,13 +300,10 @@ class MyRenderer implements GLSurfaceView.Renderer {
         for (int i = 0; i < textures.length; i++) {
             if (i < textures.length - 1) {
                 // Load bitmap
-                if (!isFallback) {
-                    File bitmapFile = layerList.get(i).getFile();
-                    tempBitmap = BackgroundHelper.decodeScaledFromFile(bitmapFile);
-                    tempBitmap.getWidth();
-                } else {
-                    tempBitmap = BackgroundHelper.decodeScaledFromRes(context.getResources(), R.drawable.fallback);
-                }
+                File bitmapFile = layerList.get(i).getFile();
+                tempBitmap = BackgroundHelper.decodeScaledFromFile(bitmapFile);
+                tempBitmap.getWidth();
+
                 width = tempBitmap.getWidth();
                 height = tempBitmap.getHeight();
             } else {
@@ -306,8 +323,13 @@ class MyRenderer implements GLSurfaceView.Renderer {
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
             GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
-            // FIXME Null pointer exception
-            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, tempBitmap, 0);
+            try {
+                GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, tempBitmap, 0);
+            } catch (NullPointerException e) {
+                Log.e(TAG, "Null pointer wile genrating layers", e);
+                deployFallbackWallpaper();
+                return;
+            }
 
             // Free memory
             tempBitmap.recycle();
@@ -321,5 +343,37 @@ class MyRenderer implements GLSurfaceView.Renderer {
 
     void setOffset(float offset) {
         this.offset = (double) offset;
+    }
+
+    private void deployFallbackWallpaper() {
+        clearTextures();
+
+        isFallback = true;
+        hasOverlay = false;
+
+        Bitmap fallbackBitmap = BackgroundHelper.decodeScaledFromRes(context.getResources(), R.drawable.fallback);
+
+        textures = new int[1];
+
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[0]);
+
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
+
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, fallbackBitmap, 0);
+
+        glLayer = new GLLayer();
+
+        loadedWallpaperId = PREF_BACKGROUND_DEFAULT;
+    }
+
+    private void clearTextures() {
+        if (textures != null) {
+            GLES20.glDeleteTextures(textures.length, textures, 0);
+        }
     }
 }
