@@ -1,4 +1,4 @@
-# Zero [![Build Status](https://travis-ci.org/lucasax/Zero.svg?branch=master)](https://travis-ci.org/lucasax/Zero)
+# Zero [![Build Status](https://travis-ci.org/lucasasselli/Zero.svg?branch=master)](https://travis-ci.org/lucasax/Zero)
 
 <img src="zero/src/main/res/drawable-nodpi/ic_launcher.png" align="left"
 width="200"
