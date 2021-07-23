@@ -23,14 +23,16 @@
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textSize="@dimen/info_text_main"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:gravity="center_horizontal" />
 
         <TextView
             android:id="@+id/info_text_secondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="@dimen/info_text_secondary" />
+            android:textSize="@dimen/info_text_secondary"
+            android:gravity="center_horizontal" />
 
     </LinearLayout>
 

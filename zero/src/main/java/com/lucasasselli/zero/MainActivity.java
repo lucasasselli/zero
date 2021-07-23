@@ -312,6 +312,7 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // handle result of pick image chooser
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             this.imageUri = CropImage.getPickImageResultUri(this, data);
 
@@ -345,6 +346,7 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE) {
             if (imageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // required permissions granted, start crop image activity

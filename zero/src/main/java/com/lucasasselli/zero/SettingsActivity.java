@@ -34,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Call fragment onActivityResult
+        super.onActivityResult(requestCode, resultCode, data);
         myPreferenceFragment.onActivityResult(requestCode, resultCode, data);
     }
 
