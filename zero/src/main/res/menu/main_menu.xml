@@ -9,9 +9,6 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/main_menu_sort_popularity"
-                    android:title="@string/main_menu_sort_popularity" />
-                <item
                     android:id="@+id/main_menu_sort_new"
                     android:title="@string/main_menu_sort_new" />
                 <item

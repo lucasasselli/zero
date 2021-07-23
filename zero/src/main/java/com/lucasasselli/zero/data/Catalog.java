@@ -22,19 +22,13 @@ public class Catalog extends ArrayList<CatalogItem> {
     public static final int SORT_BY_TITLE = 2;
     public static final int SORT_BY_AUTHOR = 3;
 
-    private int currentSortMode = SORT_BY_POPULARITY;
-    private float popularityFix = 1;
+    private int currentSortMode = SORT_BY_NEW;
 
     public void sort(int sortMode) {
 
         currentSortMode = sortMode;
 
         switch (sortMode) {
-            case SORT_BY_POPULARITY:
-                currentSortMode = SORT_BY_POPULARITY;
-                Collections.sort(this, comparatorByPopularity);
-                break;
-
             case SORT_BY_NEW:
                 currentSortMode = SORT_BY_NEW;
                 Collections.sort(this, comparatorByNew);
@@ -51,7 +45,7 @@ public class Catalog extends ArrayList<CatalogItem> {
                 break;
 
             default:
-                Collections.sort(this, comparatorByPopularity);
+                Collections.sort(this, comparatorByAuthor);
                 break;
         }
     }
@@ -83,14 +77,11 @@ public class Catalog extends ArrayList<CatalogItem> {
             } else {
                 // If the APK is compiled for production remove the test content
                 for (CatalogItem item : items) {
-                    if (item.getTest() != 1) {
+                    if (!item.getTest()) {
                         add(item);
                     }
                 }
             }
-
-            // Sort it
-            computePopularityFix();
 
             sort(currentSortMode);
         } else {
@@ -102,19 +93,6 @@ public class Catalog extends ArrayList<CatalogItem> {
     }
 
     // Comparators
-    private final Comparator<CatalogItem> comparatorByPopularity = new Comparator<CatalogItem>() {
-        @Override
-        public int compare(CatalogItem lhs, CatalogItem rhs) {
-            Float lhsFloat = (float) lhs.getDownloads();
-            Float rhsFloat = (float) rhs.getDownloads();
-
-            if (lhs.isPro() && !rhs.isPro()) rhsFloat *= popularityFix;
-            if (!lhs.isPro() && rhs.isPro()) lhsFloat *= popularityFix;
-
-            return rhsFloat.compareTo(lhsFloat);
-        }
-    };
-
     private final Comparator<CatalogItem> comparatorByNew = new Comparator<CatalogItem>() {
         @Override
         public int compare(CatalogItem lhs, CatalogItem rhs) {
@@ -139,28 +117,4 @@ public class Catalog extends ArrayList<CatalogItem> {
             return lhs.getTitle().compareTo(rhs.getTitle());
         }
     };
-
-    // Other
-    private void computePopularityFix() {
-        float proCount = 0;
-        float normCount = 0;
-        float proDownloads = 0;
-        float normDownloads = 0;
-
-        for (int i = 0; i < size(); i++) {
-            CatalogItem item = get(i);
-            if (item.isPro()) {
-                proCount++;
-                proDownloads += item.getDownloads();
-            } else {
-                normCount++;
-                normDownloads += item.getDownloads();
-            }
-        }
-
-        float proK = proDownloads / proCount;
-        float normK = normDownloads / normCount;
-
-        popularityFix = proK / normK;
-    }
 }

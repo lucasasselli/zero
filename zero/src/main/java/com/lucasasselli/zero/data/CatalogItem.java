@@ -9,22 +9,20 @@ public class CatalogItem implements Parcelable {
     private String title;
     private String author;
     private String site;
-    private int pro;
-    private int test;
-    private long downloads;
+    private boolean pro;
+    private boolean test;
 
     // Parceling
     private CatalogItem(Parcel in) {
-        String[] data = new String[7];
+        String[] data = new String[6];
         in.readStringArray(data);
 
         this.id = data[0];
         this.title = data[1];
         this.author = data[2];
         this.site = data[3];
-        this.pro = Integer.valueOf(data[4]);
-        this.test = Integer.valueOf(data[5]);
-        this.downloads = Long.valueOf(data[6]);
+        this.pro = Boolean.valueOf(data[4]);
+        this.test = Boolean.valueOf(data[5]);
     }
 
 
@@ -60,36 +58,24 @@ public class CatalogItem implements Parcelable {
         this.site = site;
     }
 
-    public int getPro() {
+    public boolean getPro() {
         return pro;
     }
 
-    public void setPro(int pro) {
-        this.pro = pro;
-    }
-
     public boolean isPro() {
-        return pro == 1;
+        return pro;
     }
 
     public void setPro(boolean pro) {
-        this.pro = pro ? 1 : 0;
+            this.pro = pro;
     }
 
-    public int getTest() {
+    public boolean getTest() {
         return test;
     }
 
-    public void setTest(int test) {
+    public void setTest(boolean test) {
         this.test = test;
-    }
-
-    public long getDownloads() {
-        return downloads;
-    }
-
-    public void setDownloads(long downloads) {
-        this.downloads = downloads;
     }
 
     @Override
@@ -106,7 +92,6 @@ public class CatalogItem implements Parcelable {
                 this.site,
                 String.valueOf(this.pro),
                 String.valueOf(this.test),
-                String.valueOf(downloads)
         });
     }
 

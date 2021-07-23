@@ -1,7 +1,7 @@
 <resources>
     <!-- Base -->
     <string name="app_name">Zero</string>
-    <string name="app_version">1.7.0</string>
+    <string name="app_version">2.0.0</string>
     <string name="my_name">Luca Sasselli</string>
 
     <!-- Common -->
@@ -49,7 +49,6 @@
     <string name="main_dialog_prowp_message">To download this wallpaper you must buy the PRO version. Do you want to download it now?</string>
 
     <string name="main_alert_deleted">Local copy deleted!</string>
-    <string name="main_alert_nextweek">New wallpapers coming every week!</string>
 
     <string name="main_menu_sort_popularity">Popularity</string>
     <string name="main_menu_sort_new">New</string>

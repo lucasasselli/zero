@@ -134,18 +134,6 @@ public class SyncManager extends IntentService {
             Log.e(TAG, "ERROR: No internet connection!");
         }
 
-        long wakeUpDelay = T_SYNC_PERIOD * 1000;
-
-        // Set pending intent to this service
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, new Intent(this, SyncManager.class), 0);
-
-        // Alarm
-        AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarm.cancel(pendingIntent);
-        alarm.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + wakeUpDelay, pendingIntent);
-
-        Log.d(TAG, "Service tasks completed! Setting alarm in " + wakeUpDelay + " millis");
-
         // Send broadcast
         if (!isSilent) {
             // Broadcast
@@ -159,8 +147,6 @@ public class SyncManager extends IntentService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        // Reset flag
         isRunning = false;
     }
 
@@ -217,7 +203,6 @@ public class SyncManager extends IntentService {
             try {
                 items = gson.fromJson(response, CatalogItem[].class);
             } catch (JsonSyntaxException ex) {
-
                 Log.e(TAG, "Json syntax error");
                 return RESULT_FAIL;
             }
@@ -280,20 +265,5 @@ public class SyncManager extends IntentService {
 
         // Send the notification.
         notificationManager.notify(NOTIFICATION_ID, notification);
-    }
-
-    // System start listener
-    public static class AutoStart extends BroadcastReceiver {
-
-        public AutoStart() {
-
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Log.d(TAG, "Boot completed, starting service...");
-
-            start(context, true);
-        }
     }
 }

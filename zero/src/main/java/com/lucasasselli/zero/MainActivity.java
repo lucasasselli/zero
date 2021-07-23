@@ -1,4 +1,4 @@
-package com.lucasasselli.zero;
+ package com.lucasasselli.zero;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -28,9 +28,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
 import com.lucasasselli.zero.async.CustomCreator;
 import com.lucasasselli.zero.async.MyAsync;
 import com.lucasasselli.zero.async.WallpaperDownloader;
@@ -50,8 +47,6 @@ import java.util.List;
 import static com.lucasasselli.zero.Constants.LD_TIMESTAMP;
 import static com.lucasasselli.zero.Constants.PREF_CHECKSENS;
 import static com.lucasasselli.zero.Constants.PREF_CHECKSENS_DEFAULT;
-import static com.lucasasselli.zero.Constants.PREF_NEXTWEEK;
-import static com.lucasasselli.zero.Constants.PREF_NEXTWEEK_DEFAULT;
 import static com.lucasasselli.zero.Constants.PRO_NAME;
 import static com.lucasasselli.zero.Constants.T_CATALOG_EXPIRATION;
 import static com.lucasasselli.zero.Utils.checkProVersion;
@@ -78,9 +73,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
     // Catalog
     private CatalogAdapter catalogAdapter;
     private Catalog catalog;
-
-    // Bottom banner
-    private InterstitialAd interstitialAd;
 
     // Broadcast listener
     private final IntentFilter broadcastFilter = new IntentFilter(SyncManager.ACTION_SYNC);
@@ -111,9 +103,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
 
     private Context context;
     private Uri imageUri;
-    private boolean nextWeekToastShown = false;
-
-    private boolean wallpaperDownloaded = false;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -140,28 +129,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         catalogList.setAdapter(catalogAdapter);
         catalogList.setOnItemClickListener(catalogItemClickListener);
 
-        // If user reaches bottom, show next week toast
-        final boolean newWeek = sharedPreferences.getBoolean(PREF_NEXTWEEK, PREF_NEXTWEEK_DEFAULT);
-        catalogList.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (totalItemCount > 0 && totalItemCount >= visibleItemCount && (firstVisibleItem + visibleItemCount >= totalItemCount)) {
-                    // End has been reached, show toast
-                    if (!newWeek && !nextWeekToastShown) {
-                        Toast.makeText(context, R.string.main_alert_nextweek, Toast.LENGTH_SHORT).show();
-                        sharedPreferences.edit().putBoolean(PREF_NEXTWEEK, true).apply();
-                        // Prevents spamming
-                        nextWeekToastShown = true;
-                    }
-                }
-            }
-
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-        });
-
         // Before anything check if the sensors are available
         boolean checkSensors = sharedPreferences.getBoolean(PREF_CHECKSENS, PREF_CHECKSENS_DEFAULT);
         if (!Utils.sensorsAvailable(this) && checkSensors) {
@@ -179,15 +146,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         }
 
         infoView.show(R.string.main_info_empty_title, R.string.main_info_empty_message);
-
-        // Ads (May God forgive my soul)
-        MobileAds.initialize(this, Secrets.ADMOB_ID);
-
-        if (!checkProVersion(context)) {
-            interstitialAd = new InterstitialAd(this);
-            interstitialAd.setAdUnitId(Secrets.ADMOB_INTERSTITIAL);
-            interstitialAd.loadAd(new AdRequest.Builder().build());
-        }
     }
 
     @Override
@@ -221,16 +179,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         } else {
             Log.d(TAG, "Catalog is still valid!");
         }
-
-        if (wallpaperDownloaded) {
-            if (!checkProVersion(context))
-                if (interstitialAd.isLoaded()) {
-                    interstitialAd.show();
-                    wallpaperDownloaded = false;
-                } else {
-                    Log.d(TAG, "The interstitial wasn't loaded yet.");
-                }
-        }
     }
 
 
@@ -250,7 +198,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
                 CatalogItem downloadedItem = extra.getParcelable(WallpaperDownloader.EXTRA_CATALOG_ITEM);
                 startSetActivity(downloadedItem);
                 refreshList(); // refresh list for downloaded icon
-                wallpaperDownloaded = true; // Used to enable ads
                 break;
 
             case CustomCreator.ID:
@@ -316,13 +263,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
                 return true;
 
             // Sort
-            case R.id.main_menu_sort_popularity:
-                // Popularity
-                item.setChecked(true);
-                catalog.sort(Catalog.SORT_BY_POPULARITY);
-                refreshList();
-                return true;
-
             case R.id.main_menu_sort_new:
                 // New
                 item.setChecked(true);
@@ -454,16 +394,12 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
 
             // Start the download
             SyncManager.start(context, false);
-
-            return;
         } else {
             // Stop refresh layout
             swipeRefreshLayout.setRefreshing(false);
 
             // Show connection error
             Snackbar.make(rootView, R.string.error_connection, Snackbar.LENGTH_LONG).show();
-
-            return;
         }
     }
 

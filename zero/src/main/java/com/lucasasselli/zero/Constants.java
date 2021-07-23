@@ -44,13 +44,7 @@ public class Constants {
     public final static String BG_CUSTOM_ID = "custom";
 
     // Api
-    public final static String URL_API = "http://www.lazyengineering.eu/zero/app/get.php";
-    public final static String URL_FIELD_ID = "id";
-    public final static String URL_FIELD_OBJ = "obj";
-    public final static String URL_OBJ_THUMBNAIL = "t";
-    public final static String URL_OBJ_PREVIEW = "p";
-    public final static String URL_OBJ_WALLPAPER = "w";
-    public final static String URL_FIELD_KEY = "key";
+    public final static String URL_API = "https://github.com/lucasasselli/Zero/blob/master/wallpapers/";
 
     // Preferences
     // NOTE: These are internal preferences not available to the user in the settings
@@ -58,8 +52,6 @@ public class Constants {
     public final static String PREF_BACKGROUND_DEFAULT = "fallback";
     public final static String PREF_CHECKSENS = "checksens";
     public final static boolean PREF_CHECKSENS_DEFAULT = true;
-    public final static String PREF_NEXTWEEK = "nextweek";
-    public final static boolean PREF_NEXTWEEK_DEFAULT = false;
     public final static String PREF_FIRSTPREV = "firstprev";
     public final static boolean PREF_FIRSTPREV_DEFAULT = true;
 }
