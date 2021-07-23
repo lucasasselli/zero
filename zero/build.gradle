@@ -12,6 +12,9 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
     }
+    lintOptions {
+        abortOnError false
+    }
     signingConfigs {
         release
     }
