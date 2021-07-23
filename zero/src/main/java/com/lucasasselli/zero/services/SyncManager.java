@@ -9,7 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
+
 import android.util.Log;
 
 import com.google.gson.Gson;
