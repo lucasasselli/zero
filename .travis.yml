@@ -1,10 +1,7 @@
 language: android
+dist: trusty
 before_install:
-- openssl aes-256-cbc -K $encrypted_f86dd6e78143_key -iv $encrypted_f86dd6e78143_iv
-  -in android_keystore.jks.enc -out android_keystore.jks -d
-- mkdir "$ANDROID_HOME/licenses" || true
-- echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
-- echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+- openssl aes-256-cbc -K $encrypted_f86dd6e78143_key -iv $encrypted_f86dd6e78143_iv -in android_keystore.jks.enc -out android_keystore.jks -d
 android:
   components:
   - tools
