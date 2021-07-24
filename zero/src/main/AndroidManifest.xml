@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lucasasselli.zero">
+    package="com.zero.zerolivewallpaper">
 
     <uses-feature
         android:name="android.software.live_wallpaper"
@@ -27,7 +27,7 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/Zero.Base">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.zero.zerolivewallpaper.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,16 +35,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.zero.zerolivewallpaper.SettingsActivity"
             android:exported="true"
             android:label="@string/settings_title"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName="com.zero.zerolivewallpaper.MainActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Zero.Base" />
 
         <service
-            android:name=".wallpaper.MyWallpaperService"
+            android:name="com.zero.zerolivewallpaper.wallpaper.MyWallpaperService"
             android:enabled="true"
             android:label="Zero"
             android:permission="android.permission.BIND_WALLPAPER">
@@ -58,15 +58,15 @@
         </service>
 
         <activity
-            android:name=".SetActivity"
+            android:name="com.zero.zerolivewallpaper.SetActivity"
             android:label="@string/set_title"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName="com.zero.zerolivewallpaper.MainActivity" />
         <activity
-            android:name=".PreviewActivity"
+            android:name="com.zero.zerolivewallpaper.PreviewActivity"
             android:theme="@style/Zero.NoActionBar" />
 
         <service
-            android:name=".services.SyncManager"
+            android:name="com.zero.zerolivewallpaper.services.SyncManager"
             android:enabled="true" />
 
     </application>

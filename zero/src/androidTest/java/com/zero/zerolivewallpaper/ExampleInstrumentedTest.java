@@ -1,4 +1,4 @@
-package com.zero.zeropro;
+package com.zero.zerolivewallpaper;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.lucasasselli.zeropro", appContext.getPackageName());
+        assertEquals("com.lucasasselli.zero", appContext.getPackageName());
     }
 }

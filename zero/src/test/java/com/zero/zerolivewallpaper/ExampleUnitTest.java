@@ -1,4 +1,4 @@
-package com.zero.zeropro;
+package com.zero.zerolivewallpaper;
 
 import org.junit.Test;
 

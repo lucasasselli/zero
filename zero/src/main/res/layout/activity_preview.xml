@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lucasasselli.zero.PreviewActivity"
+    tools:context="com.zero.zerolivewallpaper.PreviewActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="25dp">
 
-    <com.lucasasselli.zero.components.SquareVideoView
+    <com.zero.zerolivewallpaper.components.SquareVideoView
         android:id="@+id/prev_video"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
