@@ -4,16 +4,25 @@
 width="200"
     hspace="10" vspace="10">
 
-Zero is an open source, live wallpaper app for android.
+Zero is a live wallpaper that displays beautiful 3D parallax photos and artworks on your home screen. Oh, and did I've mentioned that is also ad-free and open source?
 
-Zero is available on the Google Play.  
-<a href="https://play.google.com/store/apps/details?id=com.lucasasselli.zero">
-    <img alt="Get it on Google Play"
-        height="80"
-        src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
-</a>
+Unfortunately this project is no longer mantained.
 
-The project is very young and most likely very buggy; right now the application is still in alpha test. If you are a developer and wish to contribute to the app please fork the project and submit a pull request.
+<br><br><br>
+
+## Features
+- Free and Open Source
+- High resolution images
+- Advanced customization
+- Battery friendly
+- Material design interface
+
+## Screenshots
+
+<p float="left">
+  <img src="/graphics/playstore-screen1.png" width="300" />
+  <img src="/graphics/playstore-screen2.png" width="300" /> 
+</p>
 
 ## Licensing
 
