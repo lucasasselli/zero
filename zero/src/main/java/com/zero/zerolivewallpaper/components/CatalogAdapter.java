@@ -88,11 +88,6 @@ public class CatalogAdapter extends BaseAdapter {
             offline.setVisibility(View.INVISIBLE);
         }
 
-        // Set pro
-        TextView pro = vi.findViewById(R.id.catalog_text_pro);
-        int proVisibility = item.isPro() ? View.VISIBLE : View.INVISIBLE;
-        pro.setVisibility(proVisibility);
-
         // Set thumbnail
         ImageView preview = vi.findViewById(R.id.catalog_preview);
         final ProgressBar progressBar = vi.findViewById(R.id.catalog_progress);

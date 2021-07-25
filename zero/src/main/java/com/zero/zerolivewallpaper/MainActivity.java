@@ -38,6 +38,12 @@
  import static com.zero.zerolivewallpaper.Constants.PREF_CHECKSENS;
  import static com.zero.zerolivewallpaper.Constants.PREF_CHECKSENS_DEFAULT;
  import static com.zero.zerolivewallpaper.Constants.T_CATALOG_EXPIRATION;
+ import static com.zero.zerolivewallpaper.R.id.main_menu_refresh;
+ import static com.zero.zerolivewallpaper.R.id.main_menu_set;
+ import static com.zero.zerolivewallpaper.R.id.main_menu_settings;
+ import static com.zero.zerolivewallpaper.R.id.main_menu_sort_author;
+ import static com.zero.zerolivewallpaper.R.id.main_menu_sort_new;
+ import static com.zero.zerolivewallpaper.R.id.main_menu_sort_title;
  import static com.zero.zerolivewallpaper.Utils.getTimestamp;
  import static com.zero.zerolivewallpaper.Utils.openLWSetter;
  import static com.zero.zerolivewallpaper.utils.StorageHelper.backgroundExist;
@@ -211,38 +217,38 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         // Handle item selection
         switch (item.getItemId()) {
 
-            case R.id.main_menu_refresh:
+            case main_menu_refresh:
                 // Reload catalog from the server
                 loadRemoteContent();
                 return true;
 
-            case R.id.main_menu_set:
+            case main_menu_set:
                 // Show live-wallpaper preview
                 openLWSetter(context);
                 return true;
 
-            case R.id.main_menu_settings:
+            case main_menu_settings:
                 // Start settings
                 Intent intent = new Intent(context, SettingsActivity.class);
                 startActivity(intent);
                 return true;
 
             // Sort
-            case R.id.main_menu_sort_new:
+            case main_menu_sort_new:
                 // New
                 item.setChecked(true);
                 catalog.sort(Catalog.SORT_BY_NEW);
                 refreshList();
                 return true;
 
-            case R.id.main_menu_sort_title:
+            case main_menu_sort_title:
                 // Name
                 item.setChecked(true);
                 catalog.sort(Catalog.SORT_BY_TITLE);
                 refreshList();
                 return true;
 
-            case R.id.main_menu_sort_author:
+            case main_menu_sort_author:
                 // Author
                 item.setChecked(true);
                 catalog.sort(Catalog.SORT_BY_AUTHOR);

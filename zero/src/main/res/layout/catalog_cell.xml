@@ -24,30 +24,13 @@
         android:paddingRight="10dp"
         android:paddingTop="5dp">
 
-        <TextView
-            android:id="@+id/catalog_text_pro"
+        <ImageView
+            android:id="@+id/catalog_img_offline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/text_box"
-            android:text="@string/common_pro"
-            android:textAllCaps="true"
-            android:textColor="@android:color/holo_orange_light"
-            android:textSize="@dimen/pro_text"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/catalog_img_offline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/text_box"
-            android:layout_alignEnd="@+id/catalog_text_pro"
-            android:layout_alignLeft="@+id/catalog_text_pro"
-            android:layout_alignParentBottom="false"
-            android:layout_alignRight="@+id/catalog_text_pro"
-            android:layout_alignStart="@+id/catalog_text_pro"
-            android:layout_gravity="bottom"
             app:srcCompat="@drawable/ic_offline" />
 
         <LinearLayout

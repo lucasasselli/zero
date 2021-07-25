@@ -16,7 +16,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="0dp"
         app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="0dp" />
 
     <ProgressBar
         android:id="@+id/prev_progress"
