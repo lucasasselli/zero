@@ -4,11 +4,8 @@ package com.zero.zerolivewallpaper;
 public class Constants {
 
     // System
-    public final static String PACKAGE_NAME = "com.lucasasselli.zero";
-    public final static String PRO_NAME = "com.lucasasselli.zeropro";
+    public final static String PACKAGE_NAME = "com.zero.zerolivewallpaper";
     public final static String SERVICE_NAME = PACKAGE_NAME + ".wallpaper.MyWallpaperService";
-
-    public final static boolean DEBUG_PRO = false;
 
     // Parallax
     public final static double SENSITIVITY_MIN = 0.1;

@@ -20,8 +20,6 @@ import com.zero.zerolivewallpaper.wallpaper.MyWallpaperService;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import static com.zero.zerolivewallpaper.Constants.PRO_NAME;
-
 @SuppressWarnings("SameParameterValue")
 public class Utils {
 
@@ -68,12 +66,6 @@ public class Utils {
             n++;
         }
         return Color.rgb(R / n, G / n, B / n);
-    }
-
-    // Check if PRO version is installed
-    public static boolean checkProVersion(Context context) {
-        PackageManager manager = context.getPackageManager();
-        return (manager.checkSignatures(context.getPackageName(), PRO_NAME) == PackageManager.SIGNATURE_MATCH || (BuildConfig.DEBUG && Constants.DEBUG_PRO));
     }
 
     // Check if sensor is available

@@ -45,15 +45,11 @@ import java.util.List;
 import static com.zero.zerolivewallpaper.Constants.LD_TIMESTAMP;
 import static com.zero.zerolivewallpaper.Constants.PREF_CHECKSENS;
 import static com.zero.zerolivewallpaper.Constants.PREF_CHECKSENS_DEFAULT;
-import static com.zero.zerolivewallpaper.Constants.PRO_NAME;
 import static com.zero.zerolivewallpaper.Constants.T_CATALOG_EXPIRATION;
-import static com.zero.zerolivewallpaper.Utils.checkProVersion;
 import static com.zero.zerolivewallpaper.Utils.getTimestamp;
 import static com.zero.zerolivewallpaper.Utils.openLWSetter;
-import static com.zero.zerolivewallpaper.Utils.openPlaystore;
 import static com.zero.zerolivewallpaper.utils.StorageHelper.backgroundExist;
 import static com.zero.zerolivewallpaper.utils.StorageHelper.getCacheFolder;
-import static com.zero.zerolivewallpaper.utils.StorageHelper.getDownloadedIds;
 
 public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncInterface, SwipeRefreshLayout.OnRefreshListener {
 
@@ -152,9 +148,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
 
         // Register broadcast listener
         registerReceiver(broadcastReceiver, broadcastFilter);
-
-        // Just to be super safe
-        checkProContent();
 
         // Check if refresh is running without service
         if (swipeRefreshLayout.isRefreshing() && !SyncManager.isRunning()) {
@@ -373,13 +366,7 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
     }
 
     private boolean loadLocalContent() {
-        boolean result = catalog.loadFromCache(context);
-        if (result) {
-            checkProContent();
-            return true;
-        } else {
-            return false;
-        }
+        return catalog.loadFromCache(context);
     }
 
     // Load catalog remotely
@@ -405,26 +392,10 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
 
     // Download background
     private void downloadBackground(final CatalogItem item) {
-        if (!item.isPro() || (item.isPro() && checkProVersion(context))) {
-            // Download
-            new WallpaperDownloader(context, item)
-                    .setListener((MyAsync.MyAsyncInterface) context)
-                    .execute();
-        } else {
-            new AlertDialog.Builder(context)
-                    .setTitle(R.string.main_dialog_prowp_title)
-                    .setMessage(R.string.main_dialog_prowp_message)
-                    .setPositiveButton(R.string.common_ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // Open playstore
-                            openPlaystore(context, PRO_NAME);
-                        }
-                    })
-
-                    .setNegativeButton(R.string.common_cancel, null)
-                    .show();
-        }
+        // Download
+        new WallpaperDownloader(context, item)
+                .setListener((MyAsync.MyAsyncInterface) context)
+                .execute();
     }
 
     // Set background id as wallpaper
@@ -450,28 +421,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         Intent intent = new Intent(context, PreviewActivity.class);
         intent.putExtra(PreviewActivity.EXTRA_CATALOG_ITEM, catalogItem);
         startActivityForResult(intent, PreviewActivity.PREVIEW_ACTIVITY_REQUEST_CODE);
-    }
-
-    // Checks if PRO only content must be purged
-    private void checkProContent() {
-        // Check if a non-PRO user has PRO content
-        if (!checkProVersion(context)) {
-            List<String> downloadedIds = getDownloadedIds(context);
-            if (downloadedIds != null) {
-                for (String id : downloadedIds) {
-                    // Search id in the newly created list
-                    for (CatalogItem item : catalog) {
-                        if (item.getId().equals(id) && item.isPro()) {
-                            // Non pro user has a PRO wallpaper! Delete id
-                            File file = StorageHelper.getBackgroundFolder(id, context);
-                            StorageHelper.deleteFolder(file);
-
-                            Log.d(TAG, "Non pro user has a PRO wallpaper! Deleting " + id + "...");
-                        }
-                    }
-                }
-            }
-        }
     }
 
     // Pick
