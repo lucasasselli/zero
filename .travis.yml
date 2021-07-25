@@ -18,6 +18,9 @@ jdk:
 - oraclejdk8
 script:
 - "./gradlew build"
+before_deploy:
+  - export APP_VERSION=$(./gradlew -q :zero:printVersionName)
+  - git tag $APP_VERSION --force
 deploy:
   provider: releases
   api_key:
@@ -26,7 +29,6 @@ deploy:
   overwrite: true
   file_glob: true
   file: "/home/travis/build/lucasasselli/Zero/zero/build/outputs/apk/release/*"
-  name: "$APP_VERSION"
-  tag_name: "$APP_VERSION"
   on:
     branch: master
+    tag: true
