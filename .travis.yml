@@ -19,7 +19,7 @@ jdk:
 script:
 - "./gradlew build"
 before_deploy:
-  - export APP_VERSION=$(./gradlew :zero:printVersionName)
+  - export APP_VERSION=$(./gradlew -q :zero:printVersionName)
   - git tag $APP_VERSION
 deploy:
   provider: releases
