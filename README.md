@@ -1,4 +1,4 @@
-# Zero [![Build Status](https://travis-ci.com/lucasasselli/Zero.svg?branch=master)](https://travis-ci.org/lucasasselli/Zero)
+# Zero [![Build Status](https://travis-ci.com/lucasasselli/Zero.svg?branch=master)](https://travis-ci.com/lucasasselli/Zero)
 
 <img src="zero/src/main/ic_launcher-playstore.png" align="left"
 width="200"
