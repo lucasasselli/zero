@@ -20,7 +20,7 @@ script:
 - "./gradlew build"
 before_deploy:
   - export APP_VERSION=$(./gradlew -q :zero:printVersionName)
-  - git tag $APP_VERSION
+  - git tag $APP_VERSION --force
 deploy:
   provider: releases
   api_key:
