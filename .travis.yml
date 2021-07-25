@@ -31,3 +31,4 @@ deploy:
   file: "/home/travis/build/lucasasselli/Zero/zero/build/outputs/apk/release/*"
   on:
     branch: master
+    tag: true
