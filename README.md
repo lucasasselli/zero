@@ -15,7 +15,9 @@ Zero is a live wallpaper that displays beautiful 3D parallax photos and artworks
 - Battery friendly
 - Material design interface
 
-## Adding new wallpapers
+## Contributing
+
+### Adding new wallpapers
 
 Wallpapers used by Zero are stored under the `wallpapers` directory as 3 separate files with the same name (the wallpaper id=:
 - .zip archive containing the parallax layers
@@ -24,7 +26,6 @@ Wallpapers used by Zero are stored under the `wallpapers` directory as 3 separat
 
 The list of all avilable wallpapers is stored in `wallpapers/catalog.json`.
 
-### Wallpaper archive
 The wallpaper archive is a .zip file containing the layers used by the wallpaper as separate 5000x5000 .png images. The name of the layers encodes how the layer has to be displayed and how it moves within the wallpaper:
 
 ```
