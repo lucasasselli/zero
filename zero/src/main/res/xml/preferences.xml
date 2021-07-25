@@ -72,8 +72,7 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_cat_info">
         <Preference
-            android:title="Version"
-            android:summary="@string/app_version" />
+            android:title="Version" />
         <Preference
             android:title="Created with love by"
             android:summary="@string/my_name" />

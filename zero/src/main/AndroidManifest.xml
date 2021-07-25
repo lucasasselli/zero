@@ -68,7 +68,6 @@
         <service
             android:name="com.zero.zerolivewallpaper.services.SyncManager"
             android:enabled="true" />
-
     </application>
 
 </manifest>

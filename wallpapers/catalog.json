@@ -4,7 +4,6 @@
     "title": "Zero",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -12,7 +11,6 @@
     "title": "Kinda high :-/",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -20,7 +18,6 @@
     "title": "What dog is this?",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -28,7 +25,6 @@
     "title": "There're no taxes up here",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -36,7 +32,6 @@
     "title": "Lonely Moon",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -44,7 +39,6 @@
     "title": "Vertigo",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -52,7 +46,6 @@
     "title": "GPU killer",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -60,7 +53,6 @@
     "title": "Sunrise/Sunset",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -68,7 +60,6 @@
     "title": "Treeline",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -76,7 +67,6 @@
     "title": "The Great Wave off",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -84,7 +74,6 @@
     "title": "A tree, mostly mountains",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -92,7 +81,6 @@
     "title": "The cliff",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -100,7 +88,6 @@
     "title": "Cyberpunk",
     "author": "Luis Zuno",
     "site": "https://www.luiszuno.com",
-    "pro": false,
     "test": false
   },
   {
@@ -108,7 +95,6 @@
     "title": "Definitely a wolf",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -116,7 +102,6 @@
     "title": "Memphis",
     "author": "A nice reddit user",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -124,7 +109,6 @@
     "title": "I don't remember",
     "author": "A nice reddit user",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -132,7 +116,6 @@
     "title": "What's the buzz?",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -140,7 +123,6 @@
     "title": "8-bit nature",
     "author": "Luis Zuno",
     "site": "https://www.luiszuno.com",
-    "pro": false,
     "test": false
   },
   {
@@ -148,23 +130,20 @@
     "title": "X",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
     "id": "00019",
-    "title": "Sky Trail",
+    "title": "It's always sunny",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
     "id": "00020",
-    "title": "It's always sunny",
+    "title": "Sky Trail",
     "author": "Zero",
     "site": "",
-    "pro": false,
     "test": false
   },
   {
@@ -172,7 +151,6 @@
     "title": "Thank you",
     "author": "Alessandro Santi",
     "site": "http://www.alessandrosantiphoto.it/biography/",
-    "pro": false,
     "test": false
   }
 ]

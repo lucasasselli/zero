@@ -173,6 +173,10 @@ public class SettingsActivity extends AppCompatActivity {
                     return false;
                 }
             });
+
+            // Version
+            Preference version = findPreference("version");
+            version.setSummary(BuildConfig.VERSION_NAME);
         }
 
         private void setSliderPref(final SharedPreferences sharedPreferences, int keyRes, int titleRes, int defaultRes) {

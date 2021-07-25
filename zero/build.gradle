@@ -4,11 +4,11 @@ android {
     compileSdkVersion 30
     buildToolsVersion '30.0.3'
     defaultConfig {
-        applicationId "com.lucasasselli.zero"
+        applicationId "com.zero.zerolivewallpaper"
         minSdkVersion 16
         targetSdkVersion 30
-        versionCode 21
-        versionName "2.0.4"
+        versionCode 22
+        versionName "2.0.5"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
     }
