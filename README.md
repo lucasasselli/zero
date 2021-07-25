@@ -19,7 +19,7 @@ Zero is an Android live wallpaper app that displays beautiful 3D parallax photos
 
 ### Adding new wallpapers
 
-Wallpapers used by Zero are stored under the `wallpapers` directory as 3 separate files with the same name (the wallpaper id=:
+Wallpapers used by Zero are stored under the `wallpapers` directory as 3 separate files with the same name (the wallpaper id):
 - .zip archive containing the parallax layers
 - .png thumbnail used for the catalog
 - .mp4 animation used as preview
