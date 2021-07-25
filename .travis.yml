@@ -20,12 +20,13 @@ script:
 - "./gradlew build"
 deploy:
   provider: releases
-  skip_cleanup: true
-  overwrite: true
   api_key:
     secure: IcKIxsnpd9xdc43XHOtsS1bxl2kJ231F2iUTXQzQJ2fsOoU1y+QpY0yYqH9bxNLN8KTLq3xAC8AZRxu1AEHh92fJiSRHHZVyPZBFVRIryVglsihqXahG97QOnaFRXBAVD9y6B2OBb5TngBJjONWAV1xX6CW9v5JrC22fKpWkdBUGrM8srOCGwc9+vKjmBlREYSJEwHcZqzsf1YcYWjYBjJTNe0Am6H8AtOivgsJuMTNj+2v4eMH9NfRd3B/ymu/ky+93pvxtAUtylETBZcKS6zSXm5h6nAa2N1eobq2JYREdrXYMSKZwaAsgGw1AtPVydyK0rhw3/ykU08yx0KqfNuhGIadWaGjuIHreSWPMQUgcKLXQaDnvFRzYfJJ2PFXaKfyLe/egfFuDwhiXSH2dGYGy9fNjPKCui+M3QgtqVoL0C/WZSoaeQqCJunL4pyQIHCkmam86Uz2guxoIWzaWpmmGsoV9rxAgOtdtDFD+9nFTmiV1rXo47aH97pBP+fqSjvX07WL8ti00v+AR/pCKOOYFFlO6GAJ/VjfhOTf9eNi6R6Nzbzpx97Dc7HxcTn5nDroLcfBaUppPdFMgjpXnJQh+QK6rJOegRbY9CmTh1Yc4Ik1DiRyD+VYFBYtKCxs96kNBdyxktBq1s4J4JEQbbhynHUwPSyQIhxAXZxc9haQ=
+  skip_cleanup: true
+  overwrite: true
   file_glob: true
   file: "/home/travis/build/lucasasselli/Zero/zero/build/outputs/apk/release/*"
+  name: "$APP_VERSION"
+  tag_name: "$APP_VERSION"
   on:
-    repo: lucasasselli/Zero
-    tags: true
+    branch: master

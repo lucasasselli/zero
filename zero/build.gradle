@@ -29,6 +29,12 @@ android {
         cruncherEnabled = false
     }
 
+    task printVersionName {
+        doLast {
+            println android.defaultConfig.versionName
+        }
+    }
+
     def isRunningOnTravis = System.getenv("CI") == "true"
 
     if (isRunningOnTravis) {
