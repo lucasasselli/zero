@@ -10,7 +10,7 @@ Zero is an Android live wallpaper app that displays beautiful 3D parallax photos
 
 ## Features
 - Free and Open Source
-- Beutiful High resolution wallpapers
+- Beautiful High resolution wallpapers
 - Advanced customization
 - Battery friendly
 - Material design interface
