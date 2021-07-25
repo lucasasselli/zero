@@ -4,7 +4,7 @@
 width="200"
     hspace="10" vspace="10">
 
-Zero is a live wallpaper that displays beautiful 3D parallax photos and artworks on your home screen. Oh, and did I've mentioned that is also ad-free and open source?
+Zero is an Android live wallpaper app that displays beautiful 3D parallax photos and artworks on your home screen. Oh, and did I've mentioned that is also free and open source?
 
 <br><br><br><br><br>
 
