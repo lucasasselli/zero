@@ -25,7 +25,6 @@ public class Constants {
 
     // Time
     public final static long T_CATALOG_EXPIRATION = 24 * 3600;
-    public final static long T_SYNC_PERIOD = 24 * 3600;
     public final static int T_SERVER_TIMEOUT = 15000;
     // File system
     public final static String FS_DIR_ZERO = "Zero";
@@ -39,7 +38,7 @@ public class Constants {
     public final static String BG_FORMAT = ".png";
 
     // Api
-    public final static String URL_API = "https://github.com/lucasasselli/Zero/blob/master/wallpapers/";
+    public final static String URL_API = "https://github.com/lucasasselli/zero/blob/master/wallpapers/";
 
     // Preferences
     // NOTE: These are internal preferences not available to the user in the settings
