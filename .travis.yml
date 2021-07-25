@@ -18,6 +18,8 @@ jdk:
 - oraclejdk8
 script:
 - "./gradlew build"
+before_deploy:
+  - export APP_VERSION=$(./gradlew :app:printVersionName)
 deploy:
   provider: releases
   api_key:
