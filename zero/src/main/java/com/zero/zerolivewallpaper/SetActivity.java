@@ -32,7 +32,6 @@ import static com.zero.zerolivewallpaper.Utils.openLWSetter;
 public class SetActivity extends AppCompatActivity {
 
     // Constants
-    public static final String EXTRA_IS_CUSTOM = "custom";
     public static final String EXTRA_CATALOG_ITEM = "item";
 
     private Context context;
@@ -47,7 +46,6 @@ public class SetActivity extends AppCompatActivity {
     private CatalogItem catalogItem;
 
     private boolean textBoxVisible = true;
-    private boolean isCustom = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,48 +60,39 @@ public class SetActivity extends AppCompatActivity {
         // First execution, grab intent extra
         Intent intent = getIntent();
         if (intent != null) {
-            isCustom = intent.getBooleanExtra(EXTRA_IS_CUSTOM, false);
             catalogItem = intent.getParcelableExtra(EXTRA_CATALOG_ITEM);
         } else {
             finish();
             return;
         }
 
-        textBox = (ConstraintLayout) findViewById(R.id.set_text_box);
+        textBox = findViewById(R.id.set_text_box);
 
-        wpPreview = (GLWallpaperPreview) findViewById(R.id.set_wppreview);
+        wpPreview = findViewById(R.id.set_wppreview);
 
-        if (!isCustom) {
-            // Show textbox
-            textBox.setVisibility(View.VISIBLE);
+        // Show textbox
+        textBox.setVisibility(View.VISIBLE);
 
-            // Set wallpaper preview
-            wpPreview.init(catalogItem.getId());
+        // Set wallpaper preview
+        wpPreview.init(catalogItem.getId());
 
-            // Set title text
-            titleText = (TextView) findViewById(R.id.set_text_title);
-            titleText.setText(catalogItem.getTitle());
+        // Set title text
+        titleText = findViewById(R.id.set_text_title);
+        titleText.setText(catalogItem.getTitle());
 
-            // Set author text
-            authorText = (TextView) findViewById(R.id.set_text_author);
-            authorText.setText(catalogItem.getAuthor());
+        // Set author text
+        authorText = findViewById(R.id.set_text_author);
+        authorText.setText(catalogItem.getAuthor());
 
-            // Add magic button
-            wpPreview.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TransitionManager.beginDelayedTransition(textBox);
-                    textBoxVisible = !textBoxVisible;
-                    textBox.setVisibility(textBoxVisible ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // Hide text box
-            textBox.setVisibility(View.GONE);
-
-            // Set wallpaper preview
-            wpPreview.init(Constants.BG_CUSTOM_ID);
-        }
+        // Add magic button
+        wpPreview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TransitionManager.beginDelayedTransition(textBox);
+                textBoxVisible = !textBoxVisible;
+                textBox.setVisibility(textBoxVisible ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
 
@@ -127,16 +116,9 @@ public class SetActivity extends AppCompatActivity {
         inflater.inflate(R.menu.set_menu, menu);
 
         // Hide delete for custom wallpapers
-        if (isCustom) {
-            MenuItem deleteItem = menu.findItem(R.id.set_menu_delete);
-            deleteItem.setVisible(false);
-            MenuItem linkItem = menu.findItem(R.id.set_menu_link);
-            linkItem.setVisible(false);
-        } else {
-            if (catalogItem.getSite() == null || catalogItem.getSite().equals("")) {
-                MenuItem menuItem = menu.findItem(R.id.set_menu_link);
-                menuItem.setVisible(false);
-            }
+        if (catalogItem.getSite() == null || catalogItem.getSite().equals("")) {
+            MenuItem menuItem = menu.findItem(R.id.set_menu_link);
+            menuItem.setVisible(false);
         }
         return true;
     }
@@ -177,14 +159,7 @@ public class SetActivity extends AppCompatActivity {
         final WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
         final WallpaperInfo wallpaperInfo = wallpaperManager.getWallpaperInfo();
 
-        String wallpaperId;
-        if (isCustom) {
-            wallpaperId = Constants.BG_CUSTOM_ID;
-        } else {
-            wallpaperId = catalogItem.getId();
-        }
-
-        sharedPreferences.edit().putString(PREF_BACKGROUND, wallpaperId).apply();
+        sharedPreferences.edit().putString(PREF_BACKGROUND, catalogItem.getId()).apply();
 
         boolean zeroAsLive = true;
 

@@ -21,11 +21,6 @@
         </menu>
     </item>
     <item
-        android:id="@+id/main_menu_custom"
-        android:title="@string/menu_custom"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_action_custom" />
-    <item
         android:id="@+id/main_menu_refresh"
         android:title="@string/menu_refresh" />
     <item

@@ -342,7 +342,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
     }
 
     void setOffset(float offset) {
-        this.offset = (double) offset;
+        this.offset = offset;
     }
 
     private void deployFallbackWallpaper() {

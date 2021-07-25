@@ -37,8 +37,6 @@ public class Constants {
 
     // Background
     public final static String BG_FORMAT = ".png";
-    public final static String BG_CUSTOM_NAME = "custom";
-    public final static String BG_CUSTOM_ID = "custom";
 
     // Api
     public final static String URL_API = "https://github.com/lucasasselli/Zero/blob/master/wallpapers/";

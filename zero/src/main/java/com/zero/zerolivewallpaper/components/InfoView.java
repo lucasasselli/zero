@@ -35,9 +35,9 @@ public class InfoView extends RelativeLayout {
         inflate(getContext(), R.layout.info_view, this);
 
         // Load content
-        infoInner = (LinearLayout) findViewById(R.id.info_inner);
-        mainText = (TextView) findViewById(R.id.info_text_main);
-        secondaryText = (TextView) findViewById(R.id.info_text_secondary);
+        infoInner = findViewById(R.id.info_inner);
+        mainText = findViewById(R.id.info_text_main);
+        secondaryText = findViewById(R.id.info_text_secondary);
     }
 
     public void show(int main, int secondary) {

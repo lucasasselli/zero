@@ -25,8 +25,8 @@ public class SliderDialogBuilder extends AlertDialog.Builder implements SeekBar.
         sliderView = (LinearLayout) View.inflate(context, R.layout.dialog_slider, null);
         setView(sliderView);
 
-        seekBar = (SeekBar) sliderView.findViewById(R.id.dialog_slider_seek);
-        progressText = (TextView) sliderView.findViewById(R.id.dialog_slider_text);
+        seekBar = sliderView.findViewById(R.id.dialog_slider_seek);
+        progressText = sliderView.findViewById(R.id.dialog_slider_text);
 
         seekBar.setOnSeekBarChangeListener(this);
         seekBar.setMax(100);
@@ -59,7 +59,7 @@ public class SliderDialogBuilder extends AlertDialog.Builder implements SeekBar.
     }
 
     private void setTextValue(int value) {
-        String progressString = String.valueOf(value) + " %";
+        String progressString = value + " %";
         progressText.setText(progressString);
     }
 }

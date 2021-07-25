@@ -26,7 +26,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.zero.zerolivewallpaper.async.CustomCreator;
 import com.zero.zerolivewallpaper.async.MyAsync;
 import com.zero.zerolivewallpaper.async.WallpaperDownloader;
 import com.zero.zerolivewallpaper.components.CatalogAdapter;
@@ -38,9 +37,6 @@ import com.zero.zerolivewallpaper.services.SyncManager;
 import com.zero.zerolivewallpaper.utils.InternalData;
 import com.zero.zerolivewallpaper.utils.StorageHelper;
 import com.theartofdev.edmodo.cropper.CropImage;
-
-import java.io.File;
-import java.util.List;
 
 import static com.zero.zerolivewallpaper.Constants.LD_TIMESTAMP;
 import static com.zero.zerolivewallpaper.Constants.PREF_CHECKSENS;
@@ -109,9 +105,9 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
 
         // Layout
         rootView = findViewById(R.id.main_container);
-        GridView catalogList = (GridView) findViewById(R.id.catalog_grid);
+        GridView catalogList = findViewById(R.id.catalog_grid);
         swipeRefreshLayout = (MySwipeRefreshLayout) rootView;
-        infoView = (InfoView) findViewById(R.id.info_view);
+        infoView = findViewById(R.id.info_view);
 
         // Swipe down refresh
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -183,36 +179,23 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
     // Download Listener
     @Override
     public void onCompleted(int id, Bundle extra) {
-        switch (id) {
-
-            case WallpaperDownloader.ID:
-                CatalogItem downloadedItem = extra.getParcelable(WallpaperDownloader.EXTRA_CATALOG_ITEM);
-                startSetActivity(downloadedItem);
-                refreshList(); // refresh list for downloaded icon
-                break;
-
-            case CustomCreator.ID:
-                startSetActivity();
-                break;
+        if (id == WallpaperDownloader.ID) {
+            CatalogItem downloadedItem = extra.getParcelable(WallpaperDownloader.EXTRA_CATALOG_ITEM);
+            startSetActivity(downloadedItem);
+            refreshList(); // refresh list for downloaded icon
         }
     }
 
     @Override
     public void onFailed(int id, Bundle bundle) {
-        switch (id) {
-            case WallpaperDownloader.ID:
-                swipeRefreshLayout.setRefreshing(false); // Stop refresh layout
-                int errorCode = bundle.getInt(WallpaperDownloader.EXTRA_FAIL_CODE);
-                if (errorCode == WallpaperDownloader.FAIL_CODE_TIMEOUT) {
-                    showTimeoutError();
-                } else {
-                    showBackgroundDownloadError(); // Show background download error
-                }
-                break;
-
-            case CustomCreator.ID:
-                showCustomBackgroundError();
-                break;
+        if (id == WallpaperDownloader.ID) {
+            swipeRefreshLayout.setRefreshing(false); // Stop refresh layout
+            int errorCode = bundle.getInt(WallpaperDownloader.EXTRA_FAIL_CODE);
+            if (errorCode == WallpaperDownloader.FAIL_CODE_TIMEOUT) {
+                showTimeoutError();
+            } else {
+                showBackgroundDownloadError(); // Show background download error
+            }
         }
     }
 
@@ -240,11 +223,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
             case R.id.main_menu_set:
                 // Show live-wallpaper preview
                 openLWSetter(context);
-                return true;
-
-            case R.id.main_menu_custom:
-                // Set custom background
-                startPicker();
                 return true;
 
             case R.id.main_menu_settings:
@@ -319,14 +297,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
             }
         }
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            Uri resultUri = result.getUri();
-
-            // Start creator
-            new CustomCreator(this, resultUri).setListener(this).execute();
-        }
-
         if (requestCode == PreviewActivity.PREVIEW_ACTIVITY_REQUEST_CODE && resultCode == PreviewActivity.RESULT_OK) {
             if (data != null) {
                 CatalogItem catalogItem = data.getParcelableExtra(PreviewActivity.EXTRA_CATALOG_ITEM);
@@ -338,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE) {
             if (imageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -402,16 +372,7 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
     private void startSetActivity(CatalogItem catalogItem) {
         // Start set activity
         Intent intent = new Intent(context, SetActivity.class);
-        intent.putExtra(SetActivity.EXTRA_IS_CUSTOM, false);
         intent.putExtra(SetActivity.EXTRA_CATALOG_ITEM, catalogItem);
-        startActivity(intent);
-    }
-
-    // Set background id as wallpaper
-    private void startSetActivity() {
-        // Start set activity
-        Intent intent = new Intent(context, SetActivity.class);
-        intent.putExtra(SetActivity.EXTRA_IS_CUSTOM, true);
         startActivity(intent);
     }
 
@@ -448,10 +409,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
 
     private void showBackgroundDownloadError() {
         Snackbar.make(rootView, R.string.error_download, Snackbar.LENGTH_LONG).show();
-    }
-
-    private void showCustomBackgroundError() {
-        Snackbar.make(rootView, R.string.error_customwp, Snackbar.LENGTH_LONG).show();
     }
 
     private void showTimeoutError() {

@@ -35,7 +35,7 @@ public class InternalData {
     }
 
     public int readInteger(String path, int defaultValue) {
-        byte temp[] = readBytes(path);
+        byte[] temp = readBytes(path);
         if (temp != null) {
             return byteArrayToInt(temp);
         } else {
@@ -44,7 +44,7 @@ public class InternalData {
     }
 
     public long readLong(String path, long defaultValue) {
-        byte temp[] = readBytes(path);
+        byte[] temp = readBytes(path);
         if (temp != null) {
             return byteArrayToLong(temp);
         } else {
@@ -53,7 +53,7 @@ public class InternalData {
     }
 
     public String readString(String path, String defaultValue) {
-        byte temp[] = readBytes(path);
+        byte[] temp = readBytes(path);
         if (temp != null) {
             return new String(temp);
         } else {
@@ -62,7 +62,7 @@ public class InternalData {
     }
 
     private byte[] readBytes(String path) {
-        byte bytes[];
+        byte[] bytes;
 
         try {
             FileInputStream inputStream = context.openFileInput(path);
@@ -82,7 +82,7 @@ public class InternalData {
         return bytes;
     }
 
-    private int saveBytes(byte bytes[], String path) {
+    private int saveBytes(byte[] bytes, String path) {
         try {
             OutputStream outputStream = context.openFileOutput(path, Context.MODE_PRIVATE);
             outputStream.write(bytes);

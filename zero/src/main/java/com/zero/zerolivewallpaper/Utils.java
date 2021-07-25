@@ -6,7 +6,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -34,8 +33,8 @@ public class Utils {
     public static String getBetweenStrings(String text, String textFrom, String textTo) {
 
         String result = text.substring(
-                text.indexOf(textFrom) + textFrom.length(),
-                text.length());
+                text.indexOf(textFrom) + textFrom.length()
+        );
 
         // Cut the excessive ending of the text:
         result = result.substring(0, result.indexOf(textTo));

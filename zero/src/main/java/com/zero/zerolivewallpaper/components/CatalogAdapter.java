@@ -73,15 +73,15 @@ public class CatalogAdapter extends BaseAdapter {
         CatalogItem item = itemList.get(position);
 
         // Set title
-        TextView title = (TextView) vi.findViewById(R.id.catalog_text_title);
+        TextView title = vi.findViewById(R.id.catalog_text_title);
         title.setText(item.getTitle());
 
         // Set author
-        TextView author = (TextView) vi.findViewById(R.id.catalog_text_author);
+        TextView author = vi.findViewById(R.id.catalog_text_author);
         author.setText(item.getAuthor());
 
         // Set offline
-        ImageView offline = (ImageView) vi.findViewById(R.id.catalog_img_offline);
+        ImageView offline = vi.findViewById(R.id.catalog_img_offline);
         if (backgroundExist(item.getId(), context)) {
             offline.setVisibility(View.VISIBLE);
         } else {
@@ -89,13 +89,13 @@ public class CatalogAdapter extends BaseAdapter {
         }
 
         // Set pro
-        TextView pro = (TextView) vi.findViewById(R.id.catalog_text_pro);
+        TextView pro = vi.findViewById(R.id.catalog_text_pro);
         int proVisibility = item.isPro() ? View.VISIBLE : View.INVISIBLE;
         pro.setVisibility(proVisibility);
 
         // Set thumbnail
-        ImageView preview = (ImageView) vi.findViewById(R.id.catalog_preview);
-        final ProgressBar progressBar = (ProgressBar) vi.findViewById(R.id.catalog_progress);
+        ImageView preview = vi.findViewById(R.id.catalog_preview);
+        final ProgressBar progressBar = vi.findViewById(R.id.catalog_progress);
         String thumbnailUrl = UrlFactory.getThumbnailUrl(item);
 
         Glide.with(context)

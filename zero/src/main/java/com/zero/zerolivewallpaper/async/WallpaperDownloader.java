@@ -112,7 +112,7 @@ public class WallpaperDownloader extends MyAsync {
             input = urlConnection.getInputStream();
             output = new FileOutputStream(downloadFile);
 
-            byte data[] = new byte[4096];
+            byte[] data = new byte[4096];
             int total = 0;
             int count;
             while ((count = input.read(data)) != -1) {

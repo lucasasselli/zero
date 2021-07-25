@@ -74,19 +74,19 @@ public class PreviewActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Set title text
-        titleText = (TextView) findViewById(R.id.prev_text_title);
+        titleText = findViewById(R.id.prev_text_title);
         titleText.setText(catalogItem.getTitle());
 
         // Set author text
-        authorText = (TextView) findViewById(R.id.prev_text_author);
+        authorText = findViewById(R.id.prev_text_author);
         authorText.setText(catalogItem.getAuthor());
 
         // Set error text
-        errorText = (TextView) findViewById(R.id.prev_text_error);
+        errorText = findViewById(R.id.prev_text_error);
         errorText.setVisibility(GONE);
 
         // Set download button
-        downloadBtn = (ImageView) findViewById(R.id.prev_btn_download);
+        downloadBtn = findViewById(R.id.prev_btn_download);
         downloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +98,7 @@ public class PreviewActivity extends AppCompatActivity {
         });
 
         // Set link button
-        linkBtn = (ImageView) findViewById(R.id.prev_btn_link);
+        linkBtn = findViewById(R.id.prev_btn_link);
         if (catalogItem.getSite() != null && !catalogItem.getSite().equals("")) {
             // Site field set
             linkBtn.setVisibility(View.VISIBLE);
@@ -115,8 +115,8 @@ public class PreviewActivity extends AppCompatActivity {
         }
 
         // Set video preview
-        videoView = (SquareVideoView) findViewById(R.id.prev_video);
-        progressBar = (ProgressBar) findViewById(R.id.prev_progress);
+        videoView = findViewById(R.id.prev_video);
+        progressBar = findViewById(R.id.prev_progress);
         videoView.setZOrderOnTop(true);
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -223,7 +223,7 @@ public class PreviewActivity extends AppCompatActivity {
                 input = urlConnection.getInputStream();
                 output = new FileOutputStream(downloadFile);
 
-                byte data[] = new byte[4096];
+                byte[] data = new byte[4096];
                 int total = 0;
                 int count;
                 while ((count = input.read(data)) != -1) {

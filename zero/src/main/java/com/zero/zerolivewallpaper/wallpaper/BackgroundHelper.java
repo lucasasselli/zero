@@ -13,10 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.zero.zerolivewallpaper.Constants.BG_CUSTOM_ID;
 import static com.zero.zerolivewallpaper.Constants.BG_FORMAT;
 import static com.zero.zerolivewallpaper.utils.StorageHelper.getBackgroundFolder;
-import static com.zero.zerolivewallpaper.utils.StorageHelper.getCustomWallpaper;
 
 
 class BackgroundHelper {
@@ -27,50 +25,38 @@ class BackgroundHelper {
         // Create final list
         List<Layer> output = new ArrayList<>();
 
-        if (id.equals(BG_CUSTOM_ID)) {
-            // Custom wallpaper (one file)
-            File customFile = getCustomWallpaper(context);
+        // Get background folder
+        File file = getBackgroundFolder(id, context);
 
-            if (customFile != null) {
-                if (customFile.exists()) {
-                    Layer customLayer = new Layer(customFile, 50);
-                    output.add(customLayer);
+        if (file != null) {
+            // Directory found
+            Log.d(TAG, "Directory " + id + " found in root!");
+
+            File[] layers = file.listFiles();
+            if (layers != null) {
+                if (layers.length > 0) {
+
+                    // Sort array by name
+                    Arrays.sort(layers);
+
+                    for (File layerFile : layers) {
+                        String zString = Utils.getBetweenStrings(layerFile.getPath(), id + "_", BG_FORMAT);
+                        int layerZ = Integer.valueOf(zString);
+
+                        Layer layer = new Layer(layerFile, layerZ);
+                        output.add(layer);
+
+                        Log.d(TAG, "Layer with name " + layerFile.getName() + " loaded with z=" + layerZ);
+                    }
+                } else {
+                    Log.e(TAG, "Directory " + id + " is empty!");
+                    return null;
                 }
             }
         } else {
-            // Get background folder
-            File file = getBackgroundFolder(id, context);
-
-            if (file != null) {
-                // Directory found
-                Log.d(TAG, "Directory " + id + " found in root!");
-
-                File[] layers = file.listFiles();
-                if (layers != null) {
-                    if (layers.length > 0) {
-
-                        // Sort array by name
-                        Arrays.sort(layers);
-
-                        for (File layerFile : layers) {
-                            String zString = Utils.getBetweenStrings(layerFile.getPath(), id + "_", BG_FORMAT);
-                            int layerZ = Integer.valueOf(zString);
-
-                            Layer layer = new Layer(layerFile, layerZ);
-                            output.add(layer);
-
-                            Log.d(TAG, "Layer with name " + layerFile.getName() + " loaded with z=" + layerZ);
-                        }
-                    } else {
-                        Log.e(TAG, "Directory " + id + " is empty!");
-                        return null;
-                    }
-                }
-            } else {
-                // Directory not found
-                Log.e(TAG, "Directory " + id + " not found in root!");
-                return null;
-            }
+            // Directory not found
+            Log.e(TAG, "Directory " + id + " not found in root!");
+            return null;
         }
 
         return output;

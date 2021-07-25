@@ -30,7 +30,7 @@ public abstract class MyAsync extends AsyncTask<Void, Integer, Integer> {
         // presses the power button during download
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, getClass().getName());
-        wakeLock.acquire();
+        wakeLock.acquire(5*60);
     }
 
     @Override
@@ -50,7 +50,6 @@ public abstract class MyAsync extends AsyncTask<Void, Integer, Integer> {
 
     public interface MyAsyncInterface {
         void onCompleted(int id, Bundle extra);
-
         void onFailed(int id, Bundle extra);
     }
 }

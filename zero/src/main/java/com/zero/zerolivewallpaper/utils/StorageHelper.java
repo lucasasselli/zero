@@ -1,19 +1,15 @@
 package com.zero.zerolivewallpaper.utils;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zero.zerolivewallpaper.Constants.BG_CUSTOM_NAME;
-import static com.zero.zerolivewallpaper.Constants.BG_FORMAT;
 import static com.zero.zerolivewallpaper.Constants.FS_DIR_CACHE;
 import static com.zero.zerolivewallpaper.Constants.FS_DIR_ZERO;
 
@@ -86,15 +82,6 @@ public class StorageHelper {
         return backgroundPath;
     }
 
-    public static File getCustomWallpaper(Context context) {
-        File root = getRootFolder(context);
-        if (root != null) {
-            return new File(root.getPath() + "/" + BG_CUSTOM_NAME + BG_FORMAT);
-        }
-
-        return null;
-    }
-
     public static File getPreviewFile(String id, Context context) {
         File root = getCacheFolder(context);
         if (root != null) {
@@ -102,24 +89,6 @@ public class StorageHelper {
         }
 
         return null;
-    }
-
-    public static boolean storeCustomWallpaper(Bitmap bitmap, Context context) {
-        // Get custom wallpaper file
-        File custom = getCustomWallpaper(context);
-        if (custom != null && bitmap != null) {
-            FileOutputStream out;
-            try {
-                out = new FileOutputStream(custom);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                out.close();
-            } catch (IOException e) {
-                return false;
-            }
-            return true;
-        } else {
-            return false;
-        }
     }
 
     // Lists all the downloaded wallpapers ids
