@@ -30,17 +30,14 @@ public class Catalog extends ArrayList<CatalogItem> {
 
         switch (sortMode) {
             case SORT_BY_NEW:
-                currentSortMode = SORT_BY_NEW;
                 Collections.sort(this, comparatorByNew);
                 break;
 
             case SORT_BY_AUTHOR:
-                currentSortMode = SORT_BY_AUTHOR;
                 Collections.sort(this, comparatorByAuthor);
                 break;
 
             case SORT_BY_TITLE:
-                currentSortMode = SORT_BY_TITLE;
                 Collections.sort(this, comparatorByTitle);
                 break;
 

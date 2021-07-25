@@ -41,7 +41,7 @@ class BackgroundHelper {
 
                     for (File layerFile : layers) {
                         String zString = Utils.getBetweenStrings(layerFile.getPath(), id + "_", BG_FORMAT);
-                        int layerZ = Integer.valueOf(zString);
+                        int layerZ = Integer.parseInt(zString);
 
                         Layer layer = new Layer(layerFile, layerZ);
                         output.add(layer);

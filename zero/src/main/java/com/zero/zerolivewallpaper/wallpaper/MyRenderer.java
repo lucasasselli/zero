@@ -65,7 +65,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
 
     // Internal
     private String loadedWallpaperId;
-    private boolean isPreview = false;
+    private boolean isPreview;
     private boolean hasOverlay = false;
     private boolean isFallback = false;
 
@@ -237,24 +237,24 @@ class MyRenderer implements GLSurfaceView.Renderer {
         prefLimit = sharedPreferences.getBoolean(context.getString(R.string.pref_limit_key), context.getResources().getBoolean(R.bool.pref_limit_default));
 
         String depthString = sharedPreferences.getString(context.getString(R.string.pref_depth_key), context.getString(R.string.pref_depth_default));
-        prefDepth = DEPTH_MIN + Double.valueOf(depthString) * (DEPTH_MAX / 100.0);
+        prefDepth = DEPTH_MIN + Double.parseDouble(depthString) * (DEPTH_MAX / 100.0);
 
         String sensitivityString = sharedPreferences.getString(context.getString(R.string.pref_sensitivity_key), context.getString(R.string.pref_sensitivity_default));
-        double sensitivity = SENSITIVITY_MIN + Double.valueOf(sensitivityString) * (SENSITIVITY_MAX / 100.0);
+        double sensitivity = SENSITIVITY_MIN + Double.parseDouble(sensitivityString) * (SENSITIVITY_MAX / 100.0);
 
         String fallbackString = sharedPreferences.getString(context.getString(R.string.pref_fallback_key), context.getString(R.string.pref_fallback_default));
-        double fallback = FALLBACK_MIN + Double.valueOf(fallbackString) * (FALLBACK_MAX / 100.0);
+        double fallback = FALLBACK_MIN + Double.parseDouble(fallbackString) * (FALLBACK_MAX / 100.0);
 
         String zoomString = sharedPreferences.getString(context.getString(R.string.pref_zoom_key), context.getString(R.string.pref_zoom_default));
-        prefZoom = (float) (ZOOM_MIN + (100 - Double.valueOf(zoomString)) * ((ZOOM_MAX - ZOOM_MIN) / 100.0));
+        prefZoom = (float) (ZOOM_MIN + (100 - Double.parseDouble(zoomString)) * ((ZOOM_MAX - ZOOM_MIN) / 100.0));
 
         prefScroll = sharedPreferences.getBoolean(context.getString(R.string.pref_scroll_key), context.getResources().getBoolean(R.bool.pref_scroll_default));
 
         String scrollAmountString = sharedPreferences.getString(context.getString(R.string.pref_scroll_amount_key), context.getString(R.string.pref_scroll_amount_default));
-        prefScrollAmount = SCROLL_AMOUNT_MIN + Double.valueOf(scrollAmountString) * (SCROLL_AMOUNT_MAX / 100.0);
+        prefScrollAmount = SCROLL_AMOUNT_MIN + Double.parseDouble(scrollAmountString) * (SCROLL_AMOUNT_MAX / 100.0);
 
         String dimString = sharedPreferences.getString(context.getString(R.string.pref_dim_key), context.getString(R.string.pref_dim_default));
-        prefDim = (int) ((Double.valueOf(dimString)) * (DIM_MAX / 100.0));
+        prefDim = (int) ((Double.parseDouble(dimString)) * (DIM_MAX / 100.0));
 
         // Set parallax settings
         parallax.setFallback(fallback);
@@ -266,7 +266,7 @@ class MyRenderer implements GLSurfaceView.Renderer {
         clearTextures();
 
         // Assume that the layer is fallback
-        int layerCount = 0;
+        int layerCount;
         isFallback = false;
         hasOverlay = true;
 

@@ -4,6 +4,7 @@ package com.zero.zerolivewallpaper;
 public class Constants {
 
     // System
+    public final static String URL_API = "https://github.com/lucasasselli/zero/blob/master/wallpapers/";
     public final static String PACKAGE_NAME = "com.zero.zerolivewallpaper";
     public final static String SERVICE_NAME = PACKAGE_NAME + ".wallpaper.MyWallpaperService";
 
@@ -36,9 +37,6 @@ public class Constants {
 
     // Background
     public final static String BG_FORMAT = ".png";
-
-    // Api
-    public final static String URL_API = "https://github.com/lucasasselli/zero/blob/master/wallpapers/";
 
     // Preferences
     // NOTE: These are internal preferences not available to the user in the settings

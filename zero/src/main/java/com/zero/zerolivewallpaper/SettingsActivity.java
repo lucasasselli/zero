@@ -186,7 +186,7 @@ public class SettingsActivity extends AppCompatActivity {
             final String defaultValue = getString(defaultRes);
 
             String stringValue = sharedPreferences.getString(key, defaultValue);
-            int value = Integer.valueOf(stringValue);
+            int value = Integer.parseInt(stringValue);
 
             final SliderDialogBuilder dialogBuilder = new SliderDialogBuilder(context);
             dialogBuilder.setTitle(title);

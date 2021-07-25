@@ -150,7 +150,7 @@ public class SyncManager extends IntentService {
 
     private int downloadCatalog() {
         HttpURLConnection urlConnection = null;
-        String response = "";
+        StringBuilder response = new StringBuilder();
 
         try {
             String urlString = UrlFactory.getCatalogUrl();
@@ -169,7 +169,7 @@ public class SyncManager extends IntentService {
 
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
-                    response += line;
+                    response.append(line);
                 }
 
                 in.close();
@@ -192,14 +192,14 @@ public class SyncManager extends IntentService {
             }
         }
 
-        if (!response.isEmpty()) {
+        if (response.length() > 0) {
 
             // Parse with gson
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             CatalogItem[] items;
 
             try {
-                items = gson.fromJson(response, CatalogItem[].class);
+                items = gson.fromJson(response.toString(), CatalogItem[].class);
             } catch (JsonSyntaxException ex) {
                 Log.e(TAG, "Json syntax error");
                 return RESULT_FAIL;
@@ -211,7 +211,7 @@ public class SyncManager extends IntentService {
             // Store internally
             int result;
 
-            result = internalData.saveString(response, LD_CATALOG);
+            result = internalData.saveString(response.toString(), LD_CATALOG);
             if (result == InternalData.ERROR) {
                 return RESULT_FAIL;
             }

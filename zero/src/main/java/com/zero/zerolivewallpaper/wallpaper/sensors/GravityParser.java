@@ -44,7 +44,6 @@ public class GravityParser extends GenericParser {
 
         // Compute roll and pitch
         if (fixedValues[2] != 0) {
-            //noinspection SuspiciousNameCombination
             roll = toDegrees(atan2(fixedValues[0], sqrt(fixedValues[2] * fixedValues[2] + VERTICAL_FIX * fixedValues[1] * fixedValues[1])));
 
             if (fixedValues[0] != 0) {

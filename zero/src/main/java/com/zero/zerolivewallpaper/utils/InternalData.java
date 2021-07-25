@@ -110,7 +110,7 @@ public class InternalData {
 
     private int byteArrayToInt(byte[] a) {
         String temp = new String(a);
-        return Integer.valueOf(temp);
+        return Integer.parseInt(temp);
     }
 
     private Long byteArrayToLong(byte[] a) {

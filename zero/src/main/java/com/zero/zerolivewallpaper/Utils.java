@@ -82,12 +82,6 @@ public class Utils {
         return sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null && sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null;
     }
 
-    // Open playstore to app
-    public static void openPlaystore(Context context, String name) {
-        // Open playstore
-        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + name)));
-    }
-
     // Open system live wallpaper setter
     public static void openLWSetter(Context context) {
         Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);

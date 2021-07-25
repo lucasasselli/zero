@@ -1,51 +1,47 @@
  package com.zero.zerolivewallpaper;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
+ import android.annotation.SuppressLint;
+ import android.content.BroadcastReceiver;
+ import android.content.Context;
+ import android.content.DialogInterface;
+ import android.content.Intent;
+ import android.content.IntentFilter;
+ import android.content.SharedPreferences;
+ import android.net.Uri;
+ import android.os.Bundle;
+ import android.preference.PreferenceManager;
+ import android.util.Log;
+ import android.view.Menu;
+ import android.view.MenuInflater;
+ import android.view.MenuItem;
+ import android.view.View;
+ import android.widget.AdapterView;
+ import android.widget.GridView;
 
-import com.zero.zerolivewallpaper.async.MyAsync;
-import com.zero.zerolivewallpaper.async.WallpaperDownloader;
-import com.zero.zerolivewallpaper.components.CatalogAdapter;
-import com.zero.zerolivewallpaper.components.InfoView;
-import com.zero.zerolivewallpaper.components.MySwipeRefreshLayout;
-import com.zero.zerolivewallpaper.data.Catalog;
-import com.zero.zerolivewallpaper.data.CatalogItem;
-import com.zero.zerolivewallpaper.services.SyncManager;
-import com.zero.zerolivewallpaper.utils.InternalData;
-import com.zero.zerolivewallpaper.utils.StorageHelper;
-import com.theartofdev.edmodo.cropper.CropImage;
+ import androidx.appcompat.app.AlertDialog;
+ import androidx.appcompat.app.AppCompatActivity;
+ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import static com.zero.zerolivewallpaper.Constants.LD_TIMESTAMP;
-import static com.zero.zerolivewallpaper.Constants.PREF_CHECKSENS;
-import static com.zero.zerolivewallpaper.Constants.PREF_CHECKSENS_DEFAULT;
-import static com.zero.zerolivewallpaper.Constants.T_CATALOG_EXPIRATION;
-import static com.zero.zerolivewallpaper.Utils.getTimestamp;
-import static com.zero.zerolivewallpaper.Utils.openLWSetter;
-import static com.zero.zerolivewallpaper.utils.StorageHelper.backgroundExist;
-import static com.zero.zerolivewallpaper.utils.StorageHelper.getCacheFolder;
+ import com.google.android.material.snackbar.Snackbar;
+ import com.zero.zerolivewallpaper.async.MyAsync;
+ import com.zero.zerolivewallpaper.async.WallpaperDownloader;
+ import com.zero.zerolivewallpaper.components.CatalogAdapter;
+ import com.zero.zerolivewallpaper.components.InfoView;
+ import com.zero.zerolivewallpaper.components.MySwipeRefreshLayout;
+ import com.zero.zerolivewallpaper.data.Catalog;
+ import com.zero.zerolivewallpaper.data.CatalogItem;
+ import com.zero.zerolivewallpaper.services.SyncManager;
+ import com.zero.zerolivewallpaper.utils.InternalData;
+ import com.zero.zerolivewallpaper.utils.StorageHelper;
+
+ import static com.zero.zerolivewallpaper.Constants.LD_TIMESTAMP;
+ import static com.zero.zerolivewallpaper.Constants.PREF_CHECKSENS;
+ import static com.zero.zerolivewallpaper.Constants.PREF_CHECKSENS_DEFAULT;
+ import static com.zero.zerolivewallpaper.Constants.T_CATALOG_EXPIRATION;
+ import static com.zero.zerolivewallpaper.Utils.getTimestamp;
+ import static com.zero.zerolivewallpaper.Utils.openLWSetter;
+ import static com.zero.zerolivewallpaper.utils.StorageHelper.backgroundExist;
+ import static com.zero.zerolivewallpaper.utils.StorageHelper.getCacheFolder;
 
 public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncInterface, SwipeRefreshLayout.OnRefreshListener {
 
@@ -282,20 +278,7 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
     @SuppressLint("NewApi")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // handle result of pick image chooser
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            this.imageUri = CropImage.getPickImageResultUri(this, data);
-
-            // For API >= 23 we need to check specifically that we have permissions to read external storage.
-            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageUri)) {
-                // request permissions and handle the result in onRequestPermissionsResult()
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE);
-            } else {
-                // no permissions required or already grunted, can start crop image activity
-                startCropper(imageUri);
-            }
-        }
 
         if (requestCode == PreviewActivity.PREVIEW_ACTIVITY_REQUEST_CODE && resultCode == PreviewActivity.RESULT_OK) {
             if (data != null) {
@@ -303,17 +286,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
                 if (catalogItem != null) {
                     downloadBackground(catalogItem);
                 }
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == CropImage.PICK_IMAGE_PERMISSIONS_REQUEST_CODE) {
-            if (imageUri != null && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // required permissions granted, start crop image activity
-                startCropper(imageUri);
             }
         }
     }
@@ -382,16 +354,6 @@ public class MainActivity extends AppCompatActivity implements MyAsync.MyAsyncIn
         Intent intent = new Intent(context, PreviewActivity.class);
         intent.putExtra(PreviewActivity.EXTRA_CATALOG_ITEM, catalogItem);
         startActivityForResult(intent, PreviewActivity.PREVIEW_ACTIVITY_REQUEST_CODE);
-    }
-
-    // Pick
-    private void startPicker() {
-        CropImage.startPickImageActivity(this);
-    }
-
-    // Crop
-    private void startCropper(Uri uri) {
-        CropImage.activity(uri).setAspectRatio(1, 1).start(this);
     }
 
     // Alerts
