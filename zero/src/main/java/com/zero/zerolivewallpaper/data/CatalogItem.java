@@ -13,7 +13,7 @@ public class CatalogItem implements Parcelable {
 
     // Parceling
     private CatalogItem(Parcel in) {
-        String[] data = new String[6];
+        String[] data = new String[5];
         in.readStringArray(data);
 
         this.id = data[0];
