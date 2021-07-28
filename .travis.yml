@@ -28,7 +28,7 @@ deploy:
   skip_cleanup: true
   overwrite: true
   file_glob: true
+  name: $APP_VERSION
   file: "/home/travis/build/lucasasselli/Zero/zero/build/outputs/apk/release/*"
   on:
     branch: master
-    tag: true
