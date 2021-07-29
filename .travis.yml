@@ -20,7 +20,8 @@ script:
 - "./gradlew build"
 before_deploy:
   - export APP_VERSION=$(./gradlew -q :zero:printVersionName)
-  - git tag $APP_VERSION --force
+  - export TRAVIS_TAG=$APP_VERSION-${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  - git tag $TRAVIS_TAG
 deploy:
   provider: releases
   api_key:
@@ -28,7 +29,4 @@ deploy:
   skip_cleanup: true
   overwrite: true
   file_glob: true
-  name: $APP_VERSION
   file: "/home/travis/build/lucasasselli/Zero/zero/build/outputs/apk/release/*"
-  on:
-    branch: master
