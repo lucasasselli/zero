@@ -27,6 +27,6 @@ deploy:
   skip_cleanup: true
   overwrite: true
   file_glob: true
-  file: "/home/travis/build/lucasasselli/Zero/zero/build/outputs/apk/release/*"
+  file: "/home/travis/build/lucasasselli/zero/zero/build/outputs/apk/release/*"
   on:
      branch: master
