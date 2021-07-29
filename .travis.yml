@@ -17,10 +17,9 @@ notifications:
 jdk:
 - oraclejdk8
 script:
+- export APP_VERSION=$(./gradlew -q :zero:printVersionName)
+- export TRAVIS_TAG=$APP_VERSION-${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
 - "./gradlew build"
-before_deploy:
-  - export APP_VERSION=$(./gradlew -q :zero:printVersionName)
-  - export TRAVIS_TAG=$APP_VERSION-${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
 deploy:
   provider: releases
   api_key:
