@@ -30,3 +30,6 @@ deploy:
   overwrite: true
   file_glob: true
   file: "/home/travis/build/lucasasselli/Zero/zero/build/outputs/apk/release/*"
+  on:
+     tags: true
+     all_branches: true
