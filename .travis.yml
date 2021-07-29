@@ -21,7 +21,6 @@ script:
 before_deploy:
   - export APP_VERSION=$(./gradlew -q :zero:printVersionName)
   - export TRAVIS_TAG=$APP_VERSION-${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-  - git tag $TRAVIS_TAG
 deploy:
   provider: releases
   api_key:
@@ -31,4 +30,4 @@ deploy:
   file_glob: true
   file: "/home/travis/build/lucasasselli/Zero/zero/build/outputs/apk/release/*"
   on:
-     all_branches: true
+     branch: master
