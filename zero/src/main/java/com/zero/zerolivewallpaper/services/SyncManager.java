@@ -8,10 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -36,6 +36,7 @@ import java.net.URL;
 
 import static com.zero.zerolivewallpaper.Constants.LD_CATALOG;
 import static com.zero.zerolivewallpaper.Constants.LD_TIMESTAMP;
+import static com.zero.zerolivewallpaper.Constants.PACKAGE_NAME;
 import static com.zero.zerolivewallpaper.Constants.T_SERVER_TIMEOUT;
 import static com.zero.zerolivewallpaper.Utils.getTimestamp;
 
@@ -47,7 +48,7 @@ public class SyncManager extends IntentService {
     private final static int NOTIFICATION_ID = 1;
     private final static String EXTRA_SILENT = "silent";
     public final static String EXTRA_RESULT = "result";
-    public final static String ACTION_SYNC = "com.lucasasselli.zero.services.SyncManager.ACTION_SYNC";
+    public final static String ACTION_SYNC = PACKAGE_NAME + ".services.SyncManager.ACTION_SYNC";
     public final static int RESULT_SUCCESS = 0;
     public final static int RESULT_FAIL = 1;
     public final static int RESULT_TIMEOUT = 2;
@@ -128,7 +129,6 @@ public class SyncManager extends IntentService {
         } else {
             // End service
             serviceResult = RESULT_FAIL;
-
             Log.e(TAG, "ERROR: No internet connection!");
         }
 
@@ -149,6 +149,9 @@ public class SyncManager extends IntentService {
     }
 
     private int downloadCatalog() {
+
+        Log.d(TAG, "Downloading catalog...");
+
         HttpURLConnection urlConnection = null;
         StringBuilder response = new StringBuilder();
 
