@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/text_box"
+            android:layout_alignBottom="@+id/text_box"
             app:srcCompat="@drawable/ic_offline" />
 
         <LinearLayout
@@ -42,8 +42,6 @@
             android:layout_alignParentTop="true"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@+id/catalog_text_pro"
-            android:layout_toStartOf="@+id/catalog_text_pro"
             android:orientation="vertical">
 
             <TextView
