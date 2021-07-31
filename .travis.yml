@@ -17,10 +17,9 @@ notifications:
 jdk:
 - oraclejdk8
 script:
+- export APP_VERSION=$(./gradlew -q :zero:printVersionName)
+- export TRAVIS_TAG=$APP_VERSION-${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
 - "./gradlew build"
-before_deploy:
-  - export APP_VERSION=$(./gradlew -q :zero:printVersionName)
-  - git tag $APP_VERSION --force
 deploy:
   provider: releases
   api_key:
@@ -28,7 +27,6 @@ deploy:
   skip_cleanup: true
   overwrite: true
   file_glob: true
-  file: "/home/travis/build/lucasasselli/Zero/zero/build/outputs/apk/release/*"
+  file: "/home/travis/build/lucasasselli/zero/zero/build/outputs/apk/release/*"
   on:
-    branch: master
-    tag: true
+     branch: master
