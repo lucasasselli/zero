@@ -47,6 +47,7 @@
     <string name="pref_delete_key">delete</string>
     <string name="pref_notification_key">notification</string>
     <string name="pref_dim_key">dim</string>
+    <string name="pref_version_key">version</string>
 
     <!-- Preference Default -->
     <bool name="pref_sensor_default">true</bool>

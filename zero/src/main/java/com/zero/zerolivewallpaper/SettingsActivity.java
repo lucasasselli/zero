@@ -175,7 +175,7 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             // Version
-            Preference version = findPreference("version");
+            Preference version = findPreference(getString(R.string.pref_version_key));
             version.setSummary(BuildConfig.VERSION_NAME);
         }
 

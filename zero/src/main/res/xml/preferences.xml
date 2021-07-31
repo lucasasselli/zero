@@ -57,13 +57,6 @@
             android:key="@string/pref_dim_key"
             android:defaultValue="@string/pref_dim_default" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_cat_notification">
-        <SwitchPreference
-            android:title="@string/pref_notification_title"
-            android:summary="@string/pref_notification_summary"
-            android:key="@string/pref_notification_key"
-            android:defaultValue="@bool/pref_notification_default" />
-    </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_cat_data">
         <Preference
             android:title="@string/pref_delete_title"
@@ -72,9 +65,10 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_cat_info">
         <Preference
-            android:title="Version" />
+            android:title="Version"
+            android:key="@string/pref_version_key" />
         <Preference
-            android:title="Created with love by"
+            android:title="Created with &#10084; by"
             android:summary="@string/my_name" />
     </PreferenceCategory>
 </PreferenceScreen>
