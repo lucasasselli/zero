@@ -38,9 +38,6 @@
             android:exported="true"
             android:label="@string/settings_title"
             android:parentActivityName="com.zero.zerolivewallpaper.MainActivity" />
-        <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Zero.Base" />
 
         <service
             android:name="com.zero.zerolivewallpaper.wallpaper.MyWallpaperService"
