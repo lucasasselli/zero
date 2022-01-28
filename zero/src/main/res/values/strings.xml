@@ -1,7 +1,7 @@
 <resources>
     <!-- Base -->
     <string name="app_name">Zero</string>
-    <string name="my_name">Luca Sasselli</string>
+    <string name="my_name">Zero</string>
 
     <!-- Common -->
     <string name="common_ok">OK</string>
